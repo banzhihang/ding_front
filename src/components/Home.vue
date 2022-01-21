@@ -38,6 +38,11 @@
             <van-button square type="primary" native-type="button" size="large" plain color="#9932CC">兑换</van-button>
           </router-link>
         </van-col>
+        <van-col span="24">
+          <router-link to="/invite">
+            <van-button square type="primary" native-type="button" size="large" plain color="#DC143C">邀请好友送现金</van-button>
+          </router-link>
+        </van-col>
       </van-row>
     </div>
 

@@ -27,7 +27,7 @@
           label="密码"
           clearable
           required
-          placeholder="办事大厅密码"
+          placeholder="西大办事大厅密码"
           :rules="[{ required: true, message: '密码必填' }]"
       />
       <!--    新邮箱-->

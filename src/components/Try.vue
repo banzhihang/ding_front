@@ -32,7 +32,7 @@
           label="密码"
           clearable
           required
-          placeholder="办事大厅密码"
+          placeholder="西大办事大厅密码"
           :rules="[{ required: true, message: '密码必填' }]"
       />
       <!--姓名-->
@@ -56,6 +56,15 @@
           required
           placeholder="重要信息会通过邮件告知"
           :rules="[{ required: true, message: '邮箱必填' }]"
+      />
+
+      <!--    邀请码-->
+      <van-field
+          v-model="invite_code"
+          name="邀请码"
+          label="邀请码"
+          placeholder="填写邀请码试用时间增加至20天(非必填项)"
+          clearable
       />
 
       <!--    在校地点-->
@@ -235,13 +244,17 @@ export default {
       attendance_time:7,
       morning_time: 7,
       school:'西南大学荣昌校区',
-      // 预览图片数组
-      // fileList:[],
-      // exchange_code:""
+      invite_code:""
     }
   },
   methods:{
     async onSubmit() {
+      var invite_code
+      if (this.invite_code === "") {
+        invite_code = "i000000"
+      } else {
+        invite_code = this.invite_code
+      }
       let data = {
         student_number: this.student_number,
         password: this.password,
@@ -250,6 +263,7 @@ export default {
         email: this.email,
         morning_time: this.morning_time,
         attendance_time: this.attendance_time,
+        invite_code:invite_code
       }
 
       this.isSubmit = true

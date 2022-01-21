@@ -11,6 +11,8 @@ const Home = () => import(/* webpackChunkName: "home" */ './components/Home')
 const Notice = () => import(/* webpackChunkName: "notice" */ './components/Notice')
 const Article = () => import(/* webpackChunkName: "article" */ './components/Article')
 const Exchange = () => import(/* webpackChunkName: "invite" */ './components/Exchange')
+const Invite = () => import(/* webpackChunkName: "invite" */ './components/Invite')
+const InviteCode = () => import(/* webpackChunkName: "invite" */ './components/InviteCode')
 
 
 Vue.use(Router)
@@ -93,6 +95,20 @@ export default new Router({
                 component:Exchange,
                 meta:{
                     title: '兑换'
+                }
+            },
+            {
+                path:'/invite',
+                component:Invite,
+                meta:{
+                    title: '邀请'
+                }
+            },
+            {
+                path:'/invite_code',
+                component:InviteCode,
+                meta:{
+                    title: '邀请'
                 }
             },
 
