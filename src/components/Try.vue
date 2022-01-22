@@ -63,7 +63,7 @@
           v-model="invite_code"
           name="邀请码"
           label="邀请码"
-          placeholder="填写邀请码试用时间增加至20天(非必填项)"
+          placeholder="填写邀请码试用时间增加至20天"
           clearable
       />
 

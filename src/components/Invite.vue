@@ -19,6 +19,9 @@
         <van-cell title="2.邀请1个好友永久激活，即可获得15元。" size="large" :border="false"/>
         <van-cell title="3.试用填写邀请码则试用时间增加10天。" size="large" :border="false"/>
         <van-cell title="4.购买永久激活码时出示邀请码价格便宜5元。" size="large" :border="false"/>
+        <van-cell title="5.好友试用填写你的邀请码，试用成功会自动往你的可兑换余额添加5元。" size="large" :border="false"/>
+        <van-cell title="6.好友购买激活码出示你的邀请码，激活成功会自动往你的可兑换余额添加15元。" size="large" :border="false"/>
+        <van-cell title="7.兑换无金额限制，只要大于0元即可兑换。" size="large" :border="false"/>
       </van-cell-group>
     </div>
 
