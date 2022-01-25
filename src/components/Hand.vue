@@ -79,7 +79,7 @@ export default {
     return {
       student_number:'',
       password:'',
-      type: '晨晚检',
+      type: '健康打卡',
       isSubmit: false
     }
   },
