@@ -91,7 +91,7 @@
         />
       </van-popup>
 
-      <van-field v-model="address" label="详细地址" :placeholder="address" v-show="showDetailedAddress" disabled/>
+      <van-field v-model="user_address_detail" label="详细地址"  v-show="showDetailedAddress"/>
 
       <!--    在校地点-->
       <van-field name="radio" label="在校地点">
@@ -246,6 +246,7 @@ export default {
       attendance_time:-2,
       // 详细地址
       address: '',
+      user_address_detail:'',
       // 是否显示详细地址
       showDetailedAddress: false,
       // 待上传图片数组(base64格式)
@@ -272,6 +273,7 @@ export default {
         location: this.location,
         address: this.address? this.address.replace(reg,''):'',
         attendance_time: this.attendance_time,
+        user_address_detail:this.user_address_detail,
       }
 
       console.log(data)
@@ -379,6 +381,7 @@ export default {
           .map((item) => item.name)
           .join('/');
       this.showDetailedAddress = true
+      this.user_address_detail = this.getUserAddressDetail(this.address)
       this.showArea = false
     },
 
@@ -490,6 +493,10 @@ export default {
     closed(){
       Toast.success("修改成功")
       this.showAlterInfo=false
+    },
+    getUserAddressDetail(address){
+      let reg = new RegExp('/','g')
+      return address.replace(reg,'')
     }
   },
   components:{
