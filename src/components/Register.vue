@@ -47,17 +47,35 @@
           :rules="[{ required: true, message: '姓名必填' }]"
       />
 
-      <!--    新邮箱-->
-      <van-field
-          v-model="email"
-          type="email"
-          name="邮箱"
-          label="邮箱"
-          clearable
-          required
-          placeholder="重要信息会通过邮件告知"
-          :rules="[{ required: true, message: '邮箱必填' }]"
-      />
+      <div class="email">
+        <!--    邮箱-->
+        <van-field
+            v-model="email"
+            type="email"
+            name="邮箱"
+            label="邮箱"
+            clearable
+            required
+            placeholder="重要信息会通过邮件告知"
+            :rules="[{ required: true, message: '邮箱必填' }]"
+        />
+
+        <van-button round type="info" class="btn-email" size="small ">验证邮箱</van-button>
+      </div>
+
+
+      <div class="qq">
+        <!--    qq号-->
+        <van-field
+            v-model="qq_number"
+            name="QQ号"
+            label="QQ号"
+            clearable
+            placeholder="消息优先通过QQ通知"
+        />
+        <van-button round type="info" class="btn-qq" size="small" @click="">验证QQ</van-button>
+      </div>
+
 
       <!--    激活码-->
       <van-field
@@ -458,6 +476,17 @@ export default {
       }
       this.morningText = value
       this.showSignMorningSelect = false
+    },
+    async checkEmailOrQQ(value,kind) {
+      let res;
+      try{
+        let tmp = await this.$http.post('/register',data)
+        res = tmp.data
+      }catch (err){
+        this.isSubmit = false
+        NProgress.done()
+        return this.$notify({type:'warning',message:"服务器异常，稍后再试"})
+      }
     }
   }
 }
@@ -478,10 +507,29 @@ export default {
 }
 .data-form {
   margin-top: -20px;
-  margin-left: 5px;
+  margin-left: 2px;
 }
 
 .head-link {
   margin-left: -5px;
+}
+.email {
+  position: relative;
+  .btn-email {
+    position: absolute;
+    right: 20px;
+    bottom: 7px;
+    width: 20%;
+  }
+}
+
+.qq {
+  position: relative;
+  .btn-qq {
+    position: absolute;
+    right: 20px;
+    bottom: 7px;
+    width: 20%;
+  }
 }
 </style>
