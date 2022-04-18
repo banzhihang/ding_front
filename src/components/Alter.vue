@@ -262,6 +262,12 @@ export default {
   },
   methods: {
     async onSubmit() {
+      let addressCheck
+      addressCheck = this.checkAddressIsEdit()
+      if (addressCheck === false) {
+        return
+      }
+
       let reg = new RegExp('/','g')
       let data = {
         student_number: this.student_number,
@@ -497,7 +503,21 @@ export default {
     getUserAddressDetail(address){
       let reg = new RegExp('/','g')
       return address.replace(reg,'')
+    },
+
+    // 检查用户是否将地址补全
+    checkAddressIsEdit() {
+      if (this.location === "1") {
+        let reg = new RegExp('/','g')
+        const addressTmp = this.address.replace(reg, '');
+        if (this.user_address_detail === addressTmp) {
+          this.$notify({type:'warning',message:'请点击详细地址将地址补充完整'})
+          return false
+        }
+      }
+      return true
     }
+
   },
   components:{
     alterInfo,
