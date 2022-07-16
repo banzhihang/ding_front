@@ -111,6 +111,34 @@ export default new Router({
                     title: '邀请'
                 }
             },
+            {
+                path: '/rs',
+                component: RegisterStep,
+                meta:{
+                    title: '激活步骤'
+                }
+            },
+            {
+                path: '/ts',
+                component: TryStep ,
+                meta:{
+                    title: '试用步骤'
+                }
+            },
+            {
+                path: '/n',
+                component: Notice,
+                meta:{
+                    title: '帮助中心'
+                }
+            },
+            {
+                path: '/a',
+                component: Alter,
+                meta:{
+                    title: '修改信息'
+                }
+            },
 
         ],
     }

@@ -51,14 +51,14 @@
           <van-tab title="客服信息"  >
             <div class="content">
               <van-cell-group :border="false">
-                <van-cell title="QQ" :border="false" value="997948107" icon="http://p.pigpigen.online/QQ.png"/>
+                <van-cell title="QQ" :border="false" value="3412768724" icon="http://p.pigpigen.online/QQ.png"/>
                 <van-cell title="二维码" :border="false" value="扫描下方添加" icon="http://p.pigpigen.online/%E4%BA%8C%E7%BB%B4%E7%A0%81.png"/>
               </van-cell-group>
               <div class="image">
                 <van-image
-                    width="200"
-                    height="244"
-                    src="http://p.pigpigen.online/%E5%AE%A2%E6%9C%8Dqq.jpg"
+                    width="300"
+                    height="300"
+                    src="http://hotschool.ltd/new_qq.jpg"
                 />
               </div>
 
@@ -76,7 +76,7 @@ export default {
   name: "Home",
   created() {
     Dialog.alert({
-      message: '点击链接0元试用10日！',
+      message: '原客服QQ被封号，请添加新客服QQ，新QQ二维码在下方',
       confirmButtonColor:'#4187F2',
       theme: 'round-button',
     })
