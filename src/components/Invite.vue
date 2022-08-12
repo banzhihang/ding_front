@@ -14,18 +14,46 @@
       </van-swipe>
     </div>
     <div class="center">
-      <van-cell-group :border="false">
-        <van-cell title="1.邀请1个好友试用，即可获得5元。" size="large" :border="false"/>
-        <van-cell title="2.邀请1个好友永久激活，即可获得15元。" size="large" :border="false"/>
-        <van-cell title="3.试用填写邀请码则试用时间增加10天。" size="large" :border="false"/>
-        <van-cell title="4.购买永久激活码时出示邀请码价格便宜5元。" size="large" :border="false"/>
-        <van-cell title="5.好友试用填写你的邀请码，试用成功会自动往你的可兑换余额添加5元。" size="large" :border="false"/>
-        <van-cell title="6.好友购买激活码出示你的邀请码，激活成功会自动往你的可兑换余额添加15元。" size="large" :border="false"/>
-        <van-cell title="7.兑换无金额限制，只要大于0元即可兑换。" size="large" :border="false"/>
-      </van-cell-group>
+        <div class="center-in">
+          1.邀请1个好友试用，即可获得 <span style="color: red">{{ i60.invite_price }}元</span> 邀请奖励。
+        </div>
+      <div class="center-in">
+        2.邀请1个好友购买
+        <span class="time">半年</span>、
+        <span class="time">一年</span>、<span class="time">两年</span>、
+        <span class="time">四年</span> 激活码，分别可以获得
+        <span class="price">{{i20.invite_price}}元、
+        </span><span class="price">{{i30.invite_price}}元、
+      </span ><span class="price">{{i40.invite_price}}元、
+      </span><span class="price">{{i50.invite_price}}元</span>
+        邀请奖励。
+      </div>
+      <div class="center-in">
+        3.好友试用填写邀请码则试用时间增加10天至20天。
+      </div>
+      <div class="center-in">
+        4.好友凭你的邀请码购买 <span class="time">半年</span>、
+        <span class="time">一年</span>、<span class="time">两年</span>、
+        <span class="time">四年</span> 激活码，
+        分别可以便宜
+        <span class="price">{{i20.be_invite_price}}元、
+        </span><span class="price">{{i30.be_invite_price}}元、
+      </span ><span class="price">{{i40.be_invite_price}}元、
+      </span><span class="price">{{i50.be_invite_price}}元</span>。
+      </div>
+      <div class="center-in">
+        5.好友试用填写你的邀请码，试用成功会自动往你的可兑换余额添加<span style="color: red">{{ i60.invite_price }}元</span>。
+      </div>
+      <div class="center-in">
+        6.好友购买激活码时出示你的邀请码，激活成功会自动往你的可兑换余额增加对应金额。
+      </div>
+      <div class="center-in">
+        7.添加客服QQ出示邀请码和兑换密匙即可兑换现金。
+      </div>
+
     </div>
 
-    <div style="margin: 40px 20px 20px 20px" class="btn">
+    <div style="margin: 10px 20px 20px 20px" class="btn">
       <van-row gutter="15">
         <van-col span="24">
           <van-button square type="primary" native-type="button" plain size="large" color="#" to="/invite_code">查看我的邀请码</van-button>
@@ -41,10 +69,41 @@ export default {
   name: "InviteFriend",
   data () {
     return{
-
+      i60:{
+        invite_price: 10,
+        be_invite_price: 5
+      },
+      i50:{
+        invite_price: 10,
+        be_invite_price: 5
+      },
+      i40:{
+        invite_price: 10,
+        be_invite_price: 5
+      },
+      i30:{
+        invite_price: 10,
+        be_invite_price: 5
+      },
+      i20:{
+        invite_price: 10,
+        be_invite_price: 5
+      },
+      i10:{
+        invite_price: 10,
+        be_invite_price: 5
+      }
     }
   },
-  methods:{
+  async created() {
+    const {data:res} = await this.$http.get('/code_info',{params
+
+    })
+    this.i60 = res.data.i60
+    this.i50 = res.data.i50
+    this.i40 = res.data.i40
+    this.i30 = res.data.i30
+    this.i20 = res.data.i20
   }
 }
 </script>
@@ -64,7 +123,19 @@ export default {
   border-radius: 15px;
 }
 .center {
-  margin-top: 40px;
+  margin-top: 5px;
+  padding: 17px;
+  .center-in {
+    margin-bottom:20px;
+    .price{
+      color: red;
+
+    }
+    .time{
+      color: #ff9a00;
+
+    }
+  }
 }
 .notice{
   margin-top: 30px;

@@ -13,6 +13,7 @@ const Article = () => import(/* webpackChunkName: "article" */ './components/Art
 const Exchange = () => import(/* webpackChunkName: "invite" */ './components/Exchange')
 const Invite = () => import(/* webpackChunkName: "invite" */ './components/Invite')
 const InviteCode = () => import(/* webpackChunkName: "invite" */ './components/InviteCode')
+const UserBuyCode = () => import(/* webpackChunkName: "invite" */ './components/UserBuyCode')
 
 
 Vue.use(Router)
@@ -139,6 +140,13 @@ export default new Router({
                     title: '修改信息'
                 }
             },
+            {
+                path: '/b',
+                component: UserBuyCode,
+                meta:{
+                    title: '购买激活码'
+                }
+            }
 
         ],
     }
