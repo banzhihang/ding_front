@@ -36,16 +36,20 @@
 
         <van-field v-model="price" label="价格" readonly/>
         <van-field v-model="invited_price" label="优惠" readonly />
-        <van-field
-            v-model="email"
-            name=""
-            label="接收邮箱"
-            placeholder="激活码将通过邮件发送给你"
-            clearable
-            border
-            :rules="[{required: true, message: '邮箱必填' }]"
-        />
-        <van-button type="primary" round >发送验证码</van-button>
+        <div class="email">
+          <van-field
+              v-model="email"
+              name=""
+              label="接收邮箱"
+              placeholder="激活码将通过邮件发送给你"
+              clearable
+              border
+              :rules="[{required: true, message: '邮箱必填' }]"
+              class="btn-email"
+          />
+          <van-button type="primary" round >发送验证码</van-button>
+        </div>
+
       </van-form >
     </div>
     <van-divider style="padding-top: 10px;padding-left: 30px;padding-right: 15px"/>
@@ -169,6 +173,16 @@ export default {
     .van-button {
       width: 100%;
     }
+  }
+}
+
+.email {
+  position: relative;
+  .btn-email {
+    position: absolute;
+    right: 20px;
+    bottom: 7px;
+    width: 20%;
   }
 }
 </style>
