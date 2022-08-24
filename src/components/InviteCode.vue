@@ -25,8 +25,8 @@
 
     <!--    提交-->
     <div style="margin: 16px;">
-      <van-button round block type="info" native-type="submit" loading-text="提交中..." :loading="isSubmit"
-      >提交</van-button>
+      <van-button round block type="info" native-type="submit" loading-text="查询中..." :loading="isSubmit"
+      >查询</van-button>
     </div>
 
     <van-cell-group class="invite-info" v-show="showCode" style="margin-top: 30px">
@@ -35,22 +35,32 @@
       <van-cell title="可兑换金额为" :value="exCount" />
     </van-cell-group>
 
-    <div style="margin:10px" v-if="showCode">
+    <div style="margin:5px" v-if="showCode">
       <van-tabs color="#4187F2">
         <van-tab title="注意事项"  >
           <div class="content-in">
             <p>
-              1.兑换密匙为兑换现金的唯一密匙，请勿泄漏。
+              1.兑换密匙为兑换现金的唯一密匙,请勿泄漏
             </p>
             <van-divider></van-divider>
             <p>
-              2.兑换现金请添加客服(客服信息在首页),出示邀请码和兑换密匙即可。
+              2.兑换现金请添加客服,出示邀请码和兑换密匙即可
             </p>
             <van-divider></van-divider>
             <p>
-              3.兑换之后会清零可兑换金额。
+              3.兑换之后会清零可兑换金额
             </p>
-
+            <van-divider></van-divider>
+            <p>
+              4.添加客服QQ{{masterQQNum}}兑换现金。二维码如下
+            </p>
+            <div class="image">
+              <van-image
+                  width="300"
+                  height="300"
+                  :src="masterQQUrl"
+              />
+            </div>
           </div>
         </van-tab>
       </van-tabs>
@@ -70,7 +80,9 @@ export default {
       exCode: '',
       exKey:'',
       exCount:0,
-      isSubmit: false
+      isSubmit: false,
+      masterQQNum:'997948107',
+      masterQQUrl:"http://cdn.hotschool.ltd/new_qq.jpg",
     }
   },
   methods: {
@@ -105,7 +117,18 @@ export default {
         this.$notify({type:'warning',message:msg})
       }
     },
+    async getConfig(){
+      const params = {
+        'config_name':['master_qq','master_qq_url']
+      }
+      const {data:res} = await this.$http.post('/config',params)
+      this.masterQQNum = res.data.master_qq
+      this.masterQQUrl = res.data.master_qq_url
+    }
   },
+  async created() {
+    await this.getConfig()
+  }
 }
 </script>
 
@@ -123,6 +146,11 @@ export default {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 50px;
+}
+
+.image {
+  margin-top: 10px;
+  text-align: center;
 }
 
 </style>

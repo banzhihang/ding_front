@@ -7,7 +7,7 @@
         </van-notice-bar>
       </router-link>
     </div>
-    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit">
+    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" validate-first :show-error="false">
       <!--    学工号-->
       <van-field
           v-model="student_number"
@@ -38,8 +38,38 @@
           label="新邮箱"
           clearable
           placeholder="不修改邮箱请不要填写"
-          :rules="[]"
+          :rules="[{required: isAlterEmail, message: '请输入正确邮箱',pattern: isAlterEmail?emailRex:''}]"
+          v-show="isAlterEmail"
       />
+
+      <van-field
+          v-model="valid_code"
+          name=""
+          label="验证码"
+          placeholder="请输入邮箱验证码"
+          clearable
+          border
+          :rules="[{required: isAlterEmail, message: '请输入正确验证码',pattern: isAlterEmail?validCodeRex:''}]"
+          v-show="isAlterEmail"
+      >
+        <template #button >
+          <div class="email-btn">
+            <div class="email-btn-in">
+              <van-button  type="info" :disabled="isSmsSend" class="email-btn-in" @click="clickSendCode" native-type="button" size="small">{{sendBtnText}}</van-button>
+            </div>
+          </div>
+        </template>
+      </van-field>
+
+      <van-field name="邮箱" label="邮箱">
+        <template #input>
+          <van-radio-group v-model="isAlterEmail" direction="horizontal">
+            <van-radio :name="false">不修改</van-radio>
+            <van-radio :name="true">修改</van-radio>
+          </van-radio-group>
+        </template>
+      </van-field>
+
       <!--    打卡状态-->
       <van-field name="打卡状态" label="打卡状态">
         <template #input>
@@ -258,6 +288,20 @@ export default {
       // 是否在提交
       isSubmit:false,
       afterAlterInfo:{},
+      isAlterEmail:false,
+      valid_code:'',
+      // 邮箱正则表达式
+      emailRex:/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
+      validCodeRex:/^\d{6}$/,
+      isValidEmail: false,
+      // 是否已经发送了验证码
+      isSmsSend: false,
+      // 文本
+      sendBtnText: '获取验证码',
+      // 计时器对象
+      timer: null,
+      // 倒数60秒
+      counter: 60,
     };
   },
   methods: {
@@ -275,11 +319,12 @@ export default {
         morning_time:this.morning_time,
         status: this.status,
         school: this.school,
-        email: this.email?this.email:'123456789@qq.com',
+        email: this.isAlterEmail?this.email:'123456789@qq.com',
         location: this.location,
         address: this.address? this.address.replace(reg,''):'',
         attendance_time: this.attendance_time,
         user_address_detail:this.user_address_detail,
+        valid_code:this.valid_code
       }
 
       console.log(data)
@@ -516,7 +561,51 @@ export default {
         }
       }
       return true
-    }
+    },
+
+    // 验证码倒计时
+    countDown() {
+      this.timer = setInterval(() => {
+        this.sendBtnText = `${this.counter} 秒后获取`
+        this.counter--
+        if (this.counter < 0) {
+          this.reset()
+        }
+      }, 1000)
+    },
+    // 重置验证码倒计时
+    reset() {
+      this.isSmsSend = false
+      this.sendBtnText = '获取验证码'
+      clearInterval(this.timer)
+      this.counter = 60
+      this.timer = null
+    },
+    // 发送验证码
+    async sendCode() {
+      const postData = {
+        "email":this.email
+      }
+      try{
+        let tmp = await this.$http.post('/post_valid_code',postData)
+
+        this.$notify({type:'success',message:tmp.data.msg})
+      }catch (err){
+        NProgress.done()
+        return this.$notify({type:'warning',message:"服务器异常，稍后再试"})
+      }
+    },
+    // 邮箱输入框点击校验
+    clickSendCode() {
+      if (this.emailRex.test(this.email) === true) {
+        this.sendCode()
+        this.isSmsSend = true
+        this.countDown()
+        this.isValidEmail = true
+      } else {
+        return this.$notify({type: 'warning', message: "请输入正确邮箱"})
+      }
+    },
 
   },
   components:{
@@ -534,8 +623,8 @@ export default {
   padding-left: 15px;
 }
 .van-field {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 .notice-swipe {
   height: 40px;

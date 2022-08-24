@@ -20,6 +20,7 @@ import {Row,Col} from "vant";
 import { Swipe, SwipeItem } from 'vant';
 import { Overlay } from 'vant';
 import { Toast } from 'vant';
+import { Empty } from 'vant';
 
 Vue.use(Overlay);
 
@@ -47,4 +48,5 @@ Vue.use(Button);
 Vue.use(Row);
 Vue.use(Col);
 Vue.use(Toast);
+Vue.use(Empty);
 

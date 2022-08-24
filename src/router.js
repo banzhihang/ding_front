@@ -10,10 +10,11 @@ const TryStep = () => import(/* webpackChunkName: "try-step" */ './components/Tr
 const Home = () => import(/* webpackChunkName: "home" */ './components/Home')
 const Notice = () => import(/* webpackChunkName: "notice" */ './components/Notice')
 const Article = () => import(/* webpackChunkName: "article" */ './components/Article')
-const Exchange = () => import(/* webpackChunkName: "invite" */ './components/Exchange')
+const Exchange = () => import(/* webpackChunkName: "exchange" */ './components/Exchange')
 const Invite = () => import(/* webpackChunkName: "invite" */ './components/Invite')
-const InviteCode = () => import(/* webpackChunkName: "invite" */ './components/InviteCode')
-const UserBuyCode = () => import(/* webpackChunkName: "invite" */ './components/UserBuyCode')
+const InviteCode = () => import(/* webpackChunkName: "invite-code" */ './components/InviteCode')
+const UserBuyCode = () => import(/* webpackChunkName: "user-buy-code" */ './components/UserBuyCode')
+const OrderQuery = () => import(/* webpackChunkName: "order-query" */ './components/OrderQuery')
 
 
 Vue.use(Router)
@@ -145,6 +146,13 @@ export default new Router({
                 component: UserBuyCode,
                 meta:{
                     title: '购买激活码'
+                }
+            },
+            {
+                path: '/order_query',
+                component: OrderQuery,
+                meta:{
+                    title: '支付详情'
                 }
             }
 

@@ -7,10 +7,12 @@ import 'vant/lib/index.less';
 import 'github-markdown-css';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import {baseUrl} from '../constant'
 
-//axios.defaults.baseURL = 'http://23.234.247.25:10000/ding'
-axios.defaults.baseURL = 'http://192.168.1.9:9000/ding'
+
+axios.defaults.baseURL = baseUrl
 axios.defaults.headers.post['Content-Type'] = '"application/json"'
+
 
 axios.interceptors.request.use(config =>{
   NProgress.start()

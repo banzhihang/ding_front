@@ -37,9 +37,9 @@ export default {
     getIcon(kind) {
       console.log(kind)
       if (kind === "疑问") {
-        return 'http://p.pigpigen.online/%E9%97%AE%E5%8F%B7.png'
+        return 'http://cdn.hotschool.ltd/%E9%97%AE%E5%8F%B7.png'
       }else if (kind === '通知'){
-        return 'http://p.pigpigen.online/%E8%AD%A6%E5%91%8A%20.png'
+        return 'http://cdn.hotschool.ltd/%E8%AD%A6%E5%91%8A%20.png'
       }
     }
   },

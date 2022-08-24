@@ -13,7 +13,7 @@
      </router-link>
 
     </div>
-    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" >
+    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" validate-first :show-error="false" ref="forma">
       <!--    学工号-->
       <van-field
           v-model="student_number"
@@ -47,18 +47,6 @@
           :rules="[{ required: true, message: '姓名必填' }]"
       />
 
-      <!--    新邮箱-->
-      <van-field
-          v-model="email"
-          type="email"
-          name="邮箱"
-          label="邮箱"
-          clearable
-          required
-          placeholder="重要信息会通过邮件告知"
-          :rules="[{ required: true, message: '邮箱必填' }]"
-      />
-
       <!--    激活码-->
       <van-field
           v-model="code"
@@ -69,6 +57,38 @@
           clearable
           :rules="[{ required: true, message: '激活码必填' }]"
       />
+
+      <!--    邮箱-->
+      <van-field
+          v-model="email"
+          type="email"
+          name="邮箱"
+          label="邮箱"
+          clearable
+          required
+          placeholder="重要信息会通过邮件告知"
+          :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
+      />
+
+
+      <van-field
+          v-model="valid_code"
+          name=""
+          label="验证码"
+          placeholder="请输入邮箱验证码"
+          clearable
+          border
+          required
+          :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
+      >
+        <template #button >
+          <div class="email-btn">
+            <div class="email-btn-in">
+              <van-button  type="info" :disabled="isSmsSend" class="email-btn-in" @click="clickSendCode" native-type="button" size="small">{{sendBtnText}}</van-button>
+            </div>
+          </div>
+        </template>
+      </van-field>
 
       <!--    在校地点-->
       <van-field name="radio" label="在校地点">
@@ -174,10 +194,15 @@
 
       <!--    提交-->
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit" loading-text="提交中..." :loading="isSubmit"
+        <van-button round block type="info" native-type="button" loading-text="提交中..." :loading="isSubmit" @click="clickSubmit"
         >提交</van-button>
       </div>
     </van-form>
+    <div class="no-code" @click="clickBuy">
+<!--      <van-button round block type="danger" native-type="button" @click="clickBuy" plain-->
+<!--      >没有激活码？点击此处购买</van-button>-->
+      <p>👉👉👉 没有激活码？点击此处购买 👈👈👈</p>
+    </div>
   </div>
 </template>
 
@@ -252,6 +277,19 @@ export default {
       // 预览图片数组
       // fileList:[],
       // exchange_code:""
+      valid_code:'',
+      // 邮箱正则表达式
+      emailRex:/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
+      validCodeRex:/^\d{6}$/,
+      isValidEmail: false,
+      // 是否已经发送了验证码
+      isSmsSend: false,
+      // 文本
+      sendBtnText: '获取验证码',
+      // 计时器对象
+      timer: null,
+      // 倒数60秒
+      counter: 60,
     }
   },
   methods:{
@@ -265,6 +303,7 @@ export default {
         morning_time: this.morning_time,
         attendance_time: this.attendance_time,
         code: this.code,
+        valid_code:this.valid_code
       }
 
       this.isSubmit = true
@@ -458,15 +497,71 @@ export default {
       }
       this.morningText = value
       this.showSignMorningSelect = false
-    }
+    },
+
+    // 验证码倒计时
+    countDown() {
+      this.timer = setInterval(() => {
+        this.sendBtnText = `${this.counter} 秒后获取`
+        this.counter--
+        if (this.counter < 0) {
+          this.reset()
+        }
+      }, 1000)
+    },
+    // 重置验证码倒计时
+    reset() {
+      this.isSmsSend = false
+      this.sendBtnText = '获取验证码'
+      clearInterval(this.timer)
+      this.counter = 60
+      this.timer = null
+    },
+    // 发送验证码
+    async sendCode() {
+      const postData = {
+        "email":this.email
+      }
+      try{
+        let tmp = await this.$http.post('/post_valid_code',postData)
+
+        this.$notify({type:'success',message:tmp.data.msg})
+      }catch (err){
+        NProgress.done()
+        return this.$notify({type:'warning',message:"服务器异常，稍后再试"})
+      }
+    },
+    // 邮箱输入框点击校验
+    clickSendCode() {
+      if (this.emailRex.test(this.email) === true) {
+        this.sendCode()
+        this.isSmsSend = true
+        this.countDown()
+        this.isValidEmail = true
+      } else {
+        return this.$notify({type: 'warning', message: "请输入正确邮箱"})
+      }
+    },
+    // 点击提交
+    clickSubmit() {
+      // 防止还没有获取过验证码就直接去支付
+      if (this.isValidEmail === false) {
+        return this.$notify({type: 'warning', message: "请先获取验证码"})
+      }
+      this.$refs.forma.submit()
+    },
+    // 点击购买
+    clickBuy() {
+     this.$router.push('/b')
+    },
   }
 }
 </script>
 
 <style scoped lang="less">
 .van-field {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .notice-swipe {
@@ -483,5 +578,25 @@ export default {
 
 .head-link {
   margin-left: -5px;
+}
+
+.email-btn {
+  width: 90px;
+  height: 30px;
+  position: relative;
+  .email-btn-in{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.no-code {
+  margin-top: 40px;
+  text-align: center;
+  color: #1989f7;
+  font-size: 18px;
 }
 </style>

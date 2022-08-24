@@ -12,7 +12,7 @@
       </van-notice-bar>
     </router-link>
     </div>
-    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" >
+    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" validate-first :show-error="false" ref="forma">
       <!--    学工号-->
       <van-field
           v-model="student_number"
@@ -46,7 +46,16 @@
           :rules="[{ required: true, message: '姓名必填' }]"
       />
 
-      <!--    新邮箱-->
+      <!--    邀请码-->
+      <van-field
+          v-model="invite_code"
+          name="邀请码"
+          label="邀请码"
+          placeholder="填写邀请码试用时间增加10天"
+          clearable
+      />
+
+      <!--    邮箱-->
       <van-field
           v-model="email"
           type="email"
@@ -55,17 +64,28 @@
           clearable
           required
           placeholder="重要信息会通过邮件告知"
-          :rules="[{ required: true, message: '邮箱必填' }]"
+          :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
       />
-
-      <!--    邀请码-->
       <van-field
-          v-model="invite_code"
-          name="邀请码"
-          label="邀请码"
-          placeholder="填写邀请码试用时间增加至20天"
+          v-model="valid_code"
+          name=""
+          label="验证码"
+          placeholder="请输入邮箱验证码"
           clearable
-      />
+          border
+          required
+          :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
+      >
+        <template #button >
+          <div class="email-btn">
+            <div class="email-btn-in">
+              <van-button  type="info" :disabled="isSmsSend" class="email-btn-in" @click="clickSendCode" native-type="button" size="small">{{sendBtnText}}</van-button>
+            </div>
+          </div>
+        </template>
+      </van-field>
+
+
 
       <!--    在校地点-->
       <van-field name="radio" label="在校地点">
@@ -85,34 +105,6 @@
         />
       </van-popup>
 
-      <!--早读打卡-->
-<!--      <van-field name="radio" label="早读打卡">-->
-<!--        <template #input>-->
-<!--          <van-radio-group v-model="is_morning_read" direction="horizontal">-->
-<!--            <van-radio name="0">否</van-radio>-->
-<!--            <van-radio name="1" @click="clickMorningRead">是</van-radio>-->
-<!--          </van-radio-group>-->
-<!--        </template>-->
-<!--      </van-field>-->
-
-      <!--    照片查寝-->
-<!--      <van-field name="radio" label="照片查寝">-->
-<!--        <template #input>-->
-<!--          <van-radio-group v-model="is_alter_photo" direction="horizontal">-->
-<!--            <van-radio name="0" @click="showAlterPhoto=false;waitUploadPhoto=[];fileList=[]">否</van-radio>-->
-<!--            <van-radio name="1" @click="showAlterPhoto=true;">是</van-radio>-->
-<!--          </van-radio-group>-->
-<!--        </template>-->
-<!--      </van-field>-->
-<!--      <van-field name="uploader" label="选择照片" v-show="showAlterPhoto">-->
-<!--        <template #input>-->
-<!--          <van-uploader v-model="fileList" :max-count="5" :after-read="afterUpLoadPhoto" multiple/>-->
-<!--        </template>-->
-<!--      </van-field>-->
-<!--      <div style="margin: 16px;">-->
-<!--        <van-button round block type="primary" native-type="button" v-show="showAlterPhoto"-->
-<!--                    @click="upLoadPhoto" loading-text="上传中..." :loading="isUploadPhoto">上传照片</van-button>-->
-<!--      </div>-->
 
       <!--    晨检时间-->
       <van-field
@@ -132,23 +124,7 @@
         />
       </van-popup>
 
-      <!--    晚检时间-->
-<!--      <van-field-->
-<!--          readonly-->
-<!--          clickable-->
-<!--          label="晚检时间"-->
-<!--          @click="showSignNightSelect = true"-->
-<!--          v-model="nightText"-->
-<!--          is-link-->
-<!--      />-->
-<!--      <van-popup v-model="showSignNightSelect" round position="bottom">-->
-<!--        <van-picker-->
-<!--            show-toolbar-->
-<!--            :columns="signNightColumns"-->
-<!--            @cancel="showSignNightSelect = false;nightText='19:15-20:00 (随机时间不固定)'"-->
-<!--            @confirm="showSignNightSelect = false"-->
-<!--        />-->
-<!--      </van-popup>-->
+
 
       <!--    查寝时间-->
       <van-field
@@ -171,7 +147,7 @@
 
       <!--    提交-->
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit" loading-text="提交中..." :loading="isSubmit"
+        <van-button round block type="info" native-type="button" loading-text="提交中..." :loading="isSubmit" @click="clickSubmit"
         >提交</van-button>
       </div>
     </van-form>
@@ -244,7 +220,20 @@ export default {
       attendance_time:7,
       morning_time: 7,
       school:'西南大学荣昌校区',
-      invite_code:""
+      invite_code:"",
+      valid_code:'',
+      // 邮箱正则表达式
+      emailRex:/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
+      validCodeRex:/^\d{6}$/,
+      isValidEmail: false,
+      // 是否已经发送了验证码
+      isSmsSend: false,
+      // 文本
+      sendBtnText: '获取验证码',
+      // 计时器对象
+      timer: null,
+      // 倒数60秒
+      counter: 60,
     }
   },
   methods:{
@@ -263,7 +252,8 @@ export default {
         email: this.email,
         morning_time: this.morning_time,
         attendance_time: this.attendance_time,
-        invite_code:invite_code
+        invite_code:invite_code,
+        valid_code:this.valid_code
       }
 
       this.isSubmit = true
@@ -456,15 +446,67 @@ export default {
       }
       this.morningText = value
       this.showSignMorningSelect = false
-    }
+    },
+
+    // 验证码倒计时
+    countDown() {
+      this.timer = setInterval(() => {
+        this.sendBtnText = `${this.counter} 秒后获取`
+        this.counter--
+        if (this.counter < 0) {
+          this.reset()
+        }
+      }, 1000)
+    },
+    // 重置验证码倒计时
+    reset() {
+      this.isSmsSend = false
+      this.sendBtnText = '获取验证码'
+      clearInterval(this.timer)
+      this.counter = 60
+      this.timer = null
+    },
+    // 发送验证码
+    async sendCode() {
+      const postData = {
+        "email":this.email
+      }
+      try{
+        let tmp = await this.$http.post('/post_valid_code',postData)
+
+        this.$notify({type:'success',message:tmp.data.msg})
+      }catch (err){
+        NProgress.done()
+        return this.$notify({type:'warning',message:"服务器异常，稍后再试"})
+      }
+    },
+    // 邮箱输入框点击校验
+    clickSendCode() {
+      if (this.emailRex.test(this.email) === true) {
+        this.sendCode()
+        this.isSmsSend = true
+        this.countDown()
+        this.isValidEmail = true
+      } else {
+        return this.$notify({type: 'warning', message: "请输入正确邮箱"})
+      }
+    },
+    // 点击提交
+    clickSubmit() {
+      // 防止还没有获取过验证码就直接去支付
+      if (this.isValidEmail === false) {
+        return this.$notify({type: 'warning', message: "请先获取验证码"})
+      }
+      this.$refs.forma.submit()
+    },
   }
 }
 </script>
 
 <style scoped lang="less">
 .van-field {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .notice-swipe {
@@ -481,5 +523,18 @@ export default {
 
 .head-link {
   margin-left: -5px;
+}
+
+.email-btn {
+  width: 90px;
+  height: 30px;
+  position: relative;
+  .email-btn-in{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

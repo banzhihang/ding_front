@@ -11,7 +11,7 @@
           <p>
             2.无需钉钉账号密码，只需西大办事大厅账号密码。请点击下方链接登录西大办事大厅确定账号密码。
           </p>
-          <img style="width:22rem;" src='http://p.pigpigen.online/%E5%8A%9E%E4%BA%8B%E5%A4%A7%E5%8E%85.jpg' alt="">
+          <img style="width:22rem;" src='http://cdn.hotschool.ltd/%E5%8A%9E%E4%BA%8B%E5%A4%A7%E5%8E%85.jpg' alt="">
           <div style="margin-top: 5px;font-size: 18px">
             <a href="https://uaaap.swu.edu.cn/cas/login?service=http%3A%2F%2Fi.swu.edu.cn%2FPersonalApplications%2FviewPageV3">点击登录办事大厅</a>
           </div>
