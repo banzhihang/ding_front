@@ -15,7 +15,7 @@
     </div>
     <div class="center">
         <div class="center-in">
-          1.邀请1位好友试用，即可获得 <span style="color: red">{{ i60.invite_price }}元</span> 邀请奖励
+          1.邀请1位好友试用，即可获得 <span style="color: red">{{ i60.invite_price }}元</span> 奖励
         </div>
       <van-divider></van-divider>
       <div class="center-in">
@@ -27,11 +27,11 @@
         </span><span class="price">{{i30.invite_price}}元、
       </span ><span class="price">{{i40.invite_price}}元、
       </span><span class="price">{{i50.invite_price}}元</span>
-        邀请奖励
+        奖励（一月没有奖励）
       </div>
       <van-divider></van-divider>
       <div class="center-in">
-        3.试用填写邀请码试用时间增加10天
+        3.好友试用填写邀请码试用时间增加15天
       </div>
       <van-divider></van-divider>
       <div class="center-in">
@@ -46,16 +46,17 @@
       </div>
       <van-divider></van-divider>
       <div class="center-in">
-        5.邀请奖励在完成试用或激活之后增加至你的兑换余额
+        5.奖励在完成试用或激活之后自动增加至你的可提现余额
       </div>
       <van-divider></van-divider>
       <div class="center-in">
-        6.添加客服QQ出示邀请码和兑换密匙即可兑换现金
+        6.提现请点击下方按钮，查看自己的可提现余额，点击提交提现申请即可。管理员收到提现请求之后会向你付款。
       </div>
+      <van-divider></van-divider>
 
     </div>
 
-    <div style="margin: 10px 20px 20px 20px" class="btn">
+    <div style="margin: 1px 20px 20px 20px" class="btn">
       <van-row gutter="15">
         <van-col span="24">
           <van-button  round type="info" native-type="button"  size="large" to="/invite_code">查看我的邀请码</van-button>

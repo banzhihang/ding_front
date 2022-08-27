@@ -35,10 +35,11 @@
               border
               :rules="[{ required: false}]"
               @blur="inputInviteCode"
+              label-width="5em"
           />
 
-          <van-field v-model="price" label="价格" readonly/>
-          <van-field v-model="invited_price" label="优惠" readonly />
+          <van-field v-model="price" label="价格" readonly label-width="5em"/>
+          <van-field v-model="invited_price" label="优惠" label-width="5em" readonly />
           <van-field
               v-model="email"
               name=""
@@ -46,6 +47,7 @@
               placeholder="激活码通过邮件告知"
               clearable
               border
+              label-width="5em"
               :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
           />
 
@@ -56,6 +58,7 @@
               placeholder="请输入邮箱验证码"
               clearable
               border
+              label-width="5em"
               :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
           >
             <template #button >
@@ -310,18 +313,21 @@ export default {
     }
 
     const {data:res} = await this.$http.get('/code_info')
+    let c
       for (const key in res.data) {
         let value = res.data[key]
-        if (value["desc"] === "试用") {
+        if (value["desc"] === "试用" || value["desc"]=== "兑换") {
           continue
         }
         value["code_type"] = key
+        c = value["desc"]
         this.timeToPrice[value["desc"]] = value
       }
+
     let arr = Object.keys(this.timeToPrice);
     this.activeVar = arr.length - 1
     this.$forceUpdate()
-    this.timeOnConfirm("四年")
+    this.timeOnConfirm(c)
   }
 }
 </script>
@@ -391,7 +397,7 @@ export default {
     margin-left: 5px;
     margin-top: 5px;
     border:1px solid #e3e4e6;
-    width: 100px;
+    width: 115px;
     height: 60px;
     .discount {
       margin-top: 3px;

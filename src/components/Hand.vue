@@ -8,6 +8,7 @@
         placeholder=""
         clearable
         required
+        label-width="5em"
         :rules="[{ required: true, message: '学号必填' }]"
     />
 
@@ -19,12 +20,13 @@
         label="密码"
         clearable
         required
+        label-width="5em"
         placeholder="西大办事大厅密码"
         :rules="[{ required: true, message: '密码必填' }]"
     />
 
 <!--    手动打卡类型-->
-    <van-field name="radio" label="类型">
+    <van-field name="radio" label="类型" label-width="5em">
       <template #input>
         <van-radio-group v-model="type" direction="horizontal">
           <van-radio name="健康打卡">健康打卡</van-radio>
@@ -120,7 +122,7 @@ export default {
 <style scoped lang="less">
 .data-form {
   margin-top: -10px;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 .van-field {
   margin-bottom: 20px;

@@ -31,8 +31,7 @@
 
     <van-cell-group class="invite-info" v-show="showCode" style="margin-top: 30px">
       <van-cell title="你的邀请码为" :value="exCode" />
-      <van-cell title="你的兑换密匙为" :value="exKey" />
-      <van-cell title="可兑换金额为" :value="exCount" />
+      <van-cell title="可提现金额为" :value="exCount" />
     </van-cell-group>
 
     <div style="margin:5px" v-if="showCode">
@@ -40,30 +39,20 @@
         <van-tab title="注意事项"  >
           <div class="content-in">
             <p>
-              1.兑换密匙为兑换现金的唯一密匙,请勿泄漏
+              1.提现现金请点击下方提交提现申请，上传收款码提交即可
             </p>
             <van-divider></van-divider>
             <p>
-              2.兑换现金请添加客服,出示邀请码和兑换密匙即可
+              2.管理员收到提现申请之后会向你上传的收款码支付
             </p>
             <van-divider></van-divider>
-            <p>
-              3.兑换之后会清零可兑换金额
-            </p>
-            <van-divider></van-divider>
-            <p>
-              4.添加客服QQ{{masterQQNum}}兑换现金。二维码如下
-            </p>
-            <div class="image">
-              <van-image
-                  width="300"
-                  height="300"
-                  :src="masterQQUrl"
-              />
-            </div>
           </div>
         </van-tab>
       </van-tabs>
+      <div class="apply">
+        <van-button type="info" native-type="button" @click="getToHistory">查看提现历史</van-button>
+        <van-button type="info" native-type="button" @click="goToApply">提交提现申请</van-button>
+      </div>
     </div>
   </van-form>
 </template>
@@ -101,6 +90,7 @@ export default {
         this.exKey = res.data.key
         this.exCount = res.data.balance
         this.showCode = true
+        this.setNamePassword(this.student_number,this.password)
       }else if (res.code === 1) {
         let msg = res.msg
         this.$notify({type:'success',message:msg})
@@ -124,10 +114,49 @@ export default {
       const {data:res} = await this.$http.post('/config',params)
       this.masterQQNum = res.data.master_qq
       this.masterQQUrl = res.data.master_qq_url
+    },
+    getToHistory() {
+      this.$router.push({
+          name:"PostExchangeList",
+          params:{
+            "student_number":this.student_number,
+            "password":this.password
+          }
+      })
+    },
+    goToApply() {
+      if (this.exCount === 0) {
+        return this.$notify({type:'warning',message:"可兑换余额为0，无法提交兑换申请"})
+      }
+      this.$router.push({
+        name:"PostExchangeApply",
+        params:{
+          "student_number":this.student_number,
+          "password":this.password
+        }
+      })
+    },
+    setNamePassword(student_number,password){
+      if (student_number !== "" && student_number !== null){
+        window.sessionStorage.setItem("student_number",student_number)
+      }
+      if (password !== "" && password !== null){
+        window.sessionStorage.setItem("password",password)
+      }
+    },
+    getNamePassword() {
+      const student_number = window.sessionStorage.getItem("student_number")
+      const password = window.sessionStorage.getItem("password")
+      if (student_number !== null && student_number !== "") {
+        this.student_number = student_number
+      }
+      if (password !== null && password !== "") {
+        this.password = password
+      }
     }
   },
   async created() {
-    await this.getConfig()
+    this.getNamePassword()
   }
 }
 </script>
@@ -151,6 +180,11 @@ export default {
 .image {
   margin-top: 10px;
   text-align: center;
+}
+
+.apply {
+  display: flex;
+  justify-content: space-around;
 }
 
 </style>

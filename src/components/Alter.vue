@@ -17,6 +17,7 @@
           clearable
           required
           border
+          label-width="5em"
           :rules="[{ required: true, message: '学号必填' }]"
       />
       <!--    密码-->
@@ -27,6 +28,7 @@
           label="密码"
           clearable
           required
+          label-width="5em"
           placeholder="西大办事大厅密码"
           :rules="[{ required: true, message: '密码必填' }]"
       />
@@ -37,6 +39,7 @@
           name="新邮箱"
           label="新邮箱"
           clearable
+          label-width="5em"
           placeholder="不修改邮箱请不要填写"
           :rules="[{required: isAlterEmail, message: '请输入正确邮箱',pattern: isAlterEmail?emailRex:''}]"
           v-show="isAlterEmail"
@@ -49,6 +52,7 @@
           placeholder="请输入邮箱验证码"
           clearable
           border
+          label-width="5em"
           :rules="[{required: isAlterEmail, message: '请输入正确验证码',pattern: isAlterEmail?validCodeRex:''}]"
           v-show="isAlterEmail"
       >
@@ -61,7 +65,7 @@
         </template>
       </van-field>
 
-      <van-field name="邮箱" label="邮箱">
+      <van-field name="邮箱" label="邮箱" label-width="5em">
         <template #input>
           <van-radio-group v-model="isAlterEmail" direction="horizontal">
             <van-radio :name="false">不修改</van-radio>
@@ -71,7 +75,7 @@
       </van-field>
 
       <!--    打卡状态-->
-      <van-field name="打卡状态" label="打卡状态">
+      <van-field name="打卡状态" label="打卡状态" label-width="5em">
         <template #input>
           <van-radio-group v-model="status" direction="horizontal">
             <van-radio name="1">正常打卡</van-radio>
@@ -103,7 +107,7 @@
 <!--      </van-field>-->
 
       <!--    定位地点-->
-      <van-field name="radio" label="定位地点">
+      <van-field name="radio" label="定位地点" label-width="5em">
         <template #input>
           <van-radio-group v-model="location" direction="horizontal">
             <van-radio name="2" @click="showDetailedAddress=false">不修改</van-radio>
@@ -124,7 +128,7 @@
       <van-field v-model="user_address_detail" label="详细地址"  v-show="showDetailedAddress"/>
 
       <!--    在校地点-->
-      <van-field name="radio" label="在校地点">
+      <van-field name="radio" label="在校地点" label-width="5em">
         <template #input>
           <van-radio-group v-model="selectSchool" direction="horizontal">
             <van-radio name="不做修改" @click="showBeiPei=false;schoolText='北碚';school='不做修改'">不修改</van-radio>
@@ -170,6 +174,7 @@
           v-model="morningText"
           @click="showSignMorningSelect = true"
           is-link
+          label-width="5em"
       />
       <van-popup v-model="showSignMorningSelect" round position="bottom" :close-on-click-overlay="false">
         <van-picker
@@ -187,6 +192,7 @@
           v-model="attenText"
           @click="showAttenSelect = true"
           is-link
+          label-width="5em"
       />
       <van-popup v-model="showAttenSelect" round position="bottom" :close-on-click-overlay="false">
         <van-picker
@@ -344,6 +350,7 @@ export default {
       if (res.code === 0){
         this.afterAlterInfo = res.data
         this.showAlterInfo = true
+        this.setNamePassword(this.student_number,this.password)
       }else if (res.code === 1) {
         let msg = res.msg
         this.$notify({type:'warning',message:msg})
@@ -606,10 +613,31 @@ export default {
         return this.$notify({type: 'warning', message: "请输入正确邮箱"})
       }
     },
+    setNamePassword(student_number,password){
+      if (student_number !== "" && student_number !== null){
+        window.sessionStorage.setItem("student_number",student_number)
+      }
+      if (password !== "" && password !== null){
+        window.sessionStorage.setItem("password",password)
+      }
+    },
+    getNamePassword() {
+      const student_number = window.sessionStorage.getItem("student_number")
+      const password = window.sessionStorage.getItem("password")
+      if (student_number !== null && student_number !== "") {
+        this.student_number = student_number
+      }
+      if (password !== null && password !== "") {
+        this.password = password
+      }
+    }
 
   },
   components:{
     alterInfo,
+  },
+  created() {
+    this.getNamePassword()
   }
 }
 </script>
@@ -617,7 +645,7 @@ export default {
 <style scoped lang="less">
 .data-form {
   margin-top: -20px;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 .van-notice-bar {
   padding-left: 15px;
@@ -639,5 +667,19 @@ export default {
 
 .head-link {
   margin-left: -5px;
+}
+
+
+.email-btn {
+  width: 90px;
+  height: 30px;
+  position: relative;
+  .email-btn-in{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

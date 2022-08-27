@@ -2,7 +2,10 @@
   <div id="app">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <body>
-    <router-view></router-view>
+      <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </body>
   </div>
 </template>

@@ -35,7 +35,7 @@
         </van-col>
         <van-col span="9">
           <router-link to="/exchange">
-            <van-button square type="primary" native-type="button" size="large" plain color="#1989f7">兑换</van-button>
+            <van-button square type="primary" native-type="button" size="large" plain color="#1989f7">今日校园兑换</van-button>
           </router-link>
         </van-col>
         <van-col span="12">
@@ -104,7 +104,7 @@ export default {
       confirmButtonColor: '#4187F2',
       theme: 'round-button',
     })
-  }
+  },
 }
 </script>
 

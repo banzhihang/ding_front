@@ -22,6 +22,7 @@
           placeholder=""
           clearable
           required
+          label-width="5em"
           :rules="[{ required: true, message: '学工号必填' }]"
       />
 
@@ -33,6 +34,7 @@
           label="密码"
           clearable
           required
+          label-width="5em"
           placeholder="西大办事大厅密码"
           :rules="[{ required: true, message: '密码必填' }]"
       />
@@ -42,6 +44,7 @@
           name="姓名"
           label="姓名"
           clearable
+          label-width="5em"
           required
           placeholder=""
           :rules="[{ required: true, message: '姓名必填' }]"
@@ -53,6 +56,7 @@
           name="激活码"
           label="激活码"
           required
+          label-width="5em"
           placeholder="一个激活码只能使用一次"
           clearable
           :rules="[{ required: true, message: '激活码必填' }]"
@@ -65,6 +69,7 @@
           name="邮箱"
           label="邮箱"
           clearable
+          label-width="5em"
           required
           placeholder="重要信息会通过邮件告知"
           :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
@@ -78,6 +83,7 @@
           placeholder="请输入邮箱验证码"
           clearable
           border
+          label-width="5em"
           required
           :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
       >
@@ -91,7 +97,7 @@
       </van-field>
 
       <!--    在校地点-->
-      <van-field name="radio" label="在校地点">
+      <van-field name="radio" label="在校地点" label-width="5em">
         <template #input>
           <van-radio-group v-model="selectSchool" direction="horizontal">
             <van-radio name="西南大学荣昌校区" @click="showBeiPei=false;schoolText='北碚';school='西南大学荣昌校区'">荣昌</van-radio>
@@ -145,6 +151,7 @@
           v-model="morningText"
           @click="showSignMorningSelect = true"
           is-link
+          label-width="5em"
       />
       <van-popup v-model="showSignMorningSelect" round position="bottom" :close-on-click-overlay="false">
         <van-picker
@@ -182,6 +189,7 @@
           required
           @click="showAttenSelect = true"
           is-link
+          label-width="5em"
       />
       <van-popup v-model="showAttenSelect" round position="bottom" :close-on-click-overlay="false">
         <van-picker
@@ -199,8 +207,6 @@
       </div>
     </van-form>
     <div class="no-code" @click="clickBuy">
-<!--      <van-button round block type="danger" native-type="button" @click="clickBuy" plain-->
-<!--      >没有激活码？点击此处购买</van-button>-->
       <p>👉👉👉 没有激活码？点击此处购买 👈👈👈</p>
     </div>
   </div>
@@ -320,6 +326,7 @@ export default {
       this.isSubmit = false
 
       if (res.code === 0){
+        this.setNamePassword(this.student_number,this.password)
         this.$notify({type:'success',message:res.msg})
       }else if (res.code === 1) {
         let msg = res.msg
@@ -554,6 +561,14 @@ export default {
     clickBuy() {
      this.$router.push('/b')
     },
+    setNamePassword(student_number,password){
+      if (student_number !== "" && student_number !== null){
+        window.sessionStorage.setItem("student_number",student_number)
+      }
+      if (password !== "" && password !== null){
+        window.sessionStorage.setItem("password",password)
+      }
+    },
   }
 }
 </script>
@@ -573,7 +588,7 @@ export default {
 }
 .data-form {
   margin-top: -20px;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 
 .head-link {

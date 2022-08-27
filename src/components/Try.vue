@@ -21,6 +21,7 @@
           placeholder=""
           clearable
           required
+          label-width="5em"
           :rules="[{ required: true, message: '学号必填' }]"
       />
 
@@ -32,6 +33,7 @@
           label="密码"
           clearable
           required
+          label-width="5em"
           placeholder="西大办事大厅密码"
           :rules="[{ required: true, message: '密码必填' }]"
       />
@@ -42,6 +44,7 @@
           label="姓名"
           clearable
           required
+          label-width="5em"
           placeholder=""
           :rules="[{ required: true, message: '姓名必填' }]"
       />
@@ -51,8 +54,9 @@
           v-model="invite_code"
           name="邀请码"
           label="邀请码"
-          placeholder="填写邀请码试用时间增加10天"
+          placeholder="填写邀请码试用时间增加15天"
           clearable
+          label-width="5em"
       />
 
       <!--    邮箱-->
@@ -62,6 +66,7 @@
           name="邮箱"
           label="邮箱"
           clearable
+          label-width="5em"
           required
           placeholder="重要信息会通过邮件告知"
           :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
@@ -73,6 +78,7 @@
           placeholder="请输入邮箱验证码"
           clearable
           border
+          label-width="5em"
           required
           :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
       >
@@ -88,7 +94,7 @@
 
 
       <!--    在校地点-->
-      <van-field name="radio" label="在校地点">
+      <van-field name="radio" label="在校地点" label-width="5em">
         <template #input>
           <van-radio-group v-model="selectSchool" direction="horizontal">
             <van-radio name="西南大学荣昌校区" @click="showBeiPei=false;schoolText='北碚';school='西南大学荣昌校区'">荣昌</van-radio>
@@ -114,8 +120,9 @@
           v-model="morningText"
           @click="showSignMorningSelect = true"
           is-link
+          label-width="5em"
       />
-      <van-popup v-model="showSignMorningSelect" round position="bottom" :close-on-click-overlay="false">
+      <van-popup v-model="showSignMorningSelect" round position="bottom" :close-on-click-overlay="false" label-width="5em">
         <van-picker
             show-toolbar
             :columns="signMorningColumns"
@@ -135,6 +142,7 @@
           @click="showAttenSelect = true"
           required
           is-link
+          label-width="5em"
       />
       <van-popup v-model="showAttenSelect" round position="bottom" :close-on-click-overlay="false">
         <van-picker
@@ -269,6 +277,7 @@ export default {
 
       this.isSubmit = false
       if (res.code === 0){
+        this.setNamePassword(this.student_number,this.password)
         this.$notify({type:'success',message:res.msg})
       }else if (res.code === 1) {
         let msg = res.msg
@@ -499,6 +508,14 @@ export default {
       }
       this.$refs.forma.submit()
     },
+    setNamePassword(student_number,password){
+      if (student_number !== "" && student_number !== null){
+        window.sessionStorage.setItem("student_number",student_number)
+      }
+      if (password !== "" && password !== null){
+        window.sessionStorage.setItem("password",password)
+      }
+    },
   }
 }
 </script>
@@ -518,7 +535,7 @@ export default {
 }
 .data-form {
   margin-top: -20px;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 
 .head-link {
