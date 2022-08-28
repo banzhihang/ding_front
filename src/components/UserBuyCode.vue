@@ -83,7 +83,11 @@
           <van-button  type="info" width="100%" loading-text="支付中..." :loading="isSubmit" @click="clickGoPay" :disabled="isSubmit">去支付</van-button>
         </div>
       </div>
+      <div class="no-code" @click="clickInvite">
+        <p>👉👉 没有邀请码？点击此向朋友获取 👈👈</p>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -300,7 +304,10 @@ export default {
       document.execCommand("Copy")
       oInput.style.display = 'none'
       Toast.success("复制成功")
-    }
+    },
+    clickInvite() {
+      this.$router.push('/notice/12')
+    },
   },
   async created() {
     if (this.checkWeiXinBrowser()) {
@@ -424,5 +431,12 @@ export default {
   .van-button {
     width: 100%;
   }
+}
+
+.no-code {
+  margin-top: 50px;
+  text-align: center;
+  color: #1989f7;
+  font-size: 17px;
 }
 </style>
