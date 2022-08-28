@@ -2,14 +2,18 @@
   <div>
     <div class="head-link">
       <router-link to="/hand">
-        <van-notice-bar mode="closeable" left-icon="info-o" background="#ffffff" color="#4187F2" :scrollable="false">
-          新增手动打卡，点击本链接使用。
-        </van-notice-bar>
+        <div style="height: 30px">
+          <van-notice-bar mode="closeable" left-icon="info-o" background="#ffffff" color="#4187F2" :scrollable="false">
+            新增手动打卡，点击本链接使用。
+          </van-notice-bar>
+        </div>
       </router-link>
     <router-link to="/try_step">
-      <van-notice-bar mode="closeable" left-icon="info-o" background='#ffffff' color="#4187F2" :scrollable="false" @click="">
-        试用之前请点击本链接查看试用教程。
-      </van-notice-bar>
+      <div style="height: 25px">
+        <van-notice-bar mode="closeable" left-icon="info-o" background='#ffffff' color="#4187F2" :scrollable="false" @click="">
+          试用之前请点击本链接查看试用教程。
+        </van-notice-bar>
+      </div>
     </router-link>
     </div>
     <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" validate-first :show-error="false" ref="forma">
@@ -116,7 +120,7 @@
       <van-field
           readonly
           clickable
-          label="晨检时间"
+          label="健康打卡"
           v-model="morningText"
           @click="showSignMorningSelect = true"
           is-link
@@ -140,7 +144,6 @@
           label="查寝时间"
           v-model="attenText"
           @click="showAttenSelect = true"
-          required
           is-link
           label-width="5em"
       />
@@ -155,10 +158,13 @@
 
       <!--    提交-->
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="button" loading-text="提交中..." :loading="isSubmit" @click="clickSubmit"
+        <van-button round block type="info" native-type="button" loading-text="提交中..." :loading="isSubmit" @click="clickSubmit" :disabled="isSubmit"
         >提交</van-button>
       </div>
     </van-form>
+    <div class="no-code" @click="clickInvite">
+      <p>👉👉 没有邀请码？点击此向朋友获取 👈👈</p>
+    </div>
   </div>
 
 </template>
@@ -516,14 +522,17 @@ export default {
         window.sessionStorage.setItem("password",password)
       }
     },
+    clickInvite() {
+      this.$router.push('/notice/12')
+    },
   }
 }
 </script>
 
 <style scoped lang="less">
 .van-field {
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .notice-swipe {
@@ -534,12 +543,12 @@ export default {
   padding-left: 15px;
 }
 .data-form {
-  margin-top: -20px;
+  margin-top: 10px;
   margin-left: 3px;
 }
 
 .head-link {
-  margin-left: -5px;
+  margin-left: -7px;
 }
 
 .email-btn {
@@ -553,5 +562,12 @@ export default {
     width: 100%;
     height: 100%;
   }
+}
+
+.no-code {
+  margin-top: 20px;
+  text-align: center;
+  color: #1989f7;
+  font-size: 17px;
 }
 </style>

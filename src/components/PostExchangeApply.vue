@@ -145,7 +145,7 @@ export default {
 
 
 .van-field {
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 </style>

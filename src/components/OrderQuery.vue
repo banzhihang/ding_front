@@ -28,15 +28,11 @@
               <p @click="goToRegisterStep" style="color: blue;font-size: 18px">点击激活</p>
               <van-divider></van-divider>
               <p>
-                2.💋一定要添加通知群💋，否则会打卡失败。通知群在激活链接中。
+                2.重要信息已经通过邮件发送给你了，请查收邮箱，若收件箱中没有，请检查垃圾邮箱。
               </p>
               <van-divider></van-divider>
               <p>
-                3.重要信息已经通过邮件发送给你了，请查收邮箱，若收件箱中没有，请检查垃圾邮箱。
-              </p>
-              <van-divider></van-divider>
-              <p>
-                4.若出现支付成功，却没有发放激活码的情况，请复制订单号联系客服QQ{{masterQQNum}}。二维码如下
+                3.若出现支付成功，却没有发放激活码的情况，请复制订单号联系客服QQ{{masterQQNum}}。二维码如下
               </p>
               <div class="image">
                 <van-image

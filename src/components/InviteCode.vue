@@ -8,6 +8,7 @@
         placeholder=""
         clearable
         required
+        label-width="5em"
         :rules="[{ required: true, message: '学号必填' }]"
     />
 
@@ -19,6 +20,7 @@
         label="密码"
         clearable
         required
+        label-width="5em"
         placeholder="西大办事大厅密码"
         :rules="[{ required: true, message: '密码必填' }]"
     />
@@ -163,12 +165,12 @@ export default {
 
 <style scoped lang="less">
 .data-form {
-  margin-top: -10px;
+  margin-top: 10px;
   margin-left: 5px;
 }
 .van-field {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .content-in {

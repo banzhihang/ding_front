@@ -16,8 +16,8 @@
       <div class="code-list">
         <div v-for="(item,key,index) in timeToPrice" class="code-list-in" :key="index" :class="{'activeCss':activeVar===index}" @click="clickTime(item,index)">
           <div class="time-txt">
-            <span style="color: #5e5757">{{ item.desc }}</span>
-            <span style="margin-left: 3px;color: #e3b05f">￥{{ item.price }}</span>
+            <span style="color: #5e5757;font-size: 15px">{{ item.desc }}</span>
+            <span style="margin-left: 3px;color: #e3b05f;font-size: 15px">￥{{ item.price }}</span>
           </div>
           <div class="discount">
             邀请码优惠-￥<span>{{item.be_invite_price}}</span>
@@ -47,6 +47,7 @@
               placeholder="激活码通过邮件告知"
               clearable
               border
+              required
               label-width="5em"
               :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
           />
@@ -58,6 +59,7 @@
               placeholder="请输入邮箱验证码"
               clearable
               border
+              required
               label-width="5em"
               :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
           >
@@ -78,7 +80,7 @@
           <span>实付:</span><span class="price">￥{{real_price}}</span>
         </div>
         <div class="pay-button">
-          <van-button  type="info" width="100%" loading-text="支付中..." :loading="isSubmit" @click="clickGoPay">去支付</van-button>
+          <van-button  type="info" width="100%" loading-text="支付中..." :loading="isSubmit" @click="clickGoPay" :disabled="isSubmit">去支付</van-button>
         </div>
       </div>
     </div>
@@ -342,7 +344,7 @@ export default {
   margin-top: 5%;
   margin-left: 0 ;
   .van-field {
-    font-size: 15px;
+    font-size: 14px;
   }
   .invited-price {
     .van-field__control {
@@ -351,7 +353,7 @@ export default {
   }
 }
 .pay {
-  margin-top: 40px;
+  margin-top: 20px;
   margin-right: 20px;
   display: flex;
   align-items: center;
@@ -384,7 +386,7 @@ export default {
 
 .code-list {
   text-align: center;
-  margin-top: 17px;
+  margin-top: 10px;
   margin-left: 3% ;
   margin-right: 4%;
   display: flex;
@@ -393,12 +395,12 @@ export default {
   .code-list-in{
     box-sizing:border-box;
     border-radius: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
+    margin-right: 2px;
+    margin-left: 2px;
     margin-top: 5px;
     border:1px solid #e3e4e6;
-    width: 115px;
-    height: 60px;
+    width: 112px;
+    height: 58px;
     .discount {
       margin-top: 3px;
       font-size: 10px;

@@ -45,7 +45,7 @@
         </van-col>
         <van-col span="12">
           <router-link to="/invite">
-            <van-button square type="primary" native-type="button" size="large" plain color="#1989f7">邀请好友送现金</van-button>
+            <van-button square type="primary" native-type="button" size="large" plain color="#1989f7">邀请好友返现金</van-button>
           </router-link>
         </van-col>
 

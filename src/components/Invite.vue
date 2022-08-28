@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div class="head">
-      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white" >
-        <van-swipe-item >
-            <van-image radius="10px" width="100%" height="100%"
-                       src="http://cdn.hotschool.ltd/lunbotu1.jpg"/>
+<!--    <div class="head">-->
+<!--      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white" >-->
+<!--        <van-swipe-item >-->
+<!--            <van-image radius="10px" width="100%" height="100%"-->
+<!--                       src="http://cdn.hotschool.ltd/lunbotu1.jpg"/>-->
 
-        </van-swipe-item>
-        <van-swipe-item>
-          <van-image radius="10px" width="100%" height="100%"
-                     src="http://cdn.hotschool.ltd/lunbotu2.jpeg"/>
-        </van-swipe-item>
-      </van-swipe>
-    </div>
+<!--        </van-swipe-item>-->
+<!--        <van-swipe-item>-->
+<!--          <van-image radius="10px" width="100%" height="100%"-->
+<!--                     src="http://cdn.hotschool.ltd/lunbotu2.jpeg"/>-->
+<!--        </van-swipe-item>-->
+<!--      </van-swipe>-->
+<!--    </div>-->
     <div class="center">
         <div class="center-in">
           1.邀请1位好友试用，即可获得 <span style="color: red">{{ i60.invite_price }}元</span> 奖励
@@ -27,7 +27,7 @@
         </span><span class="price">{{i30.invite_price}}元、
       </span ><span class="price">{{i40.invite_price}}元、
       </span><span class="price">{{i50.invite_price}}元</span>
-        奖励（一月没有奖励）
+        奖励（时长半年以下没有邀请奖励）
       </div>
       <van-divider></van-divider>
       <div class="center-in">
@@ -125,7 +125,10 @@ export default {
 }
 .center {
   margin-top: 5px;
-  padding: 17px;
+  padding-top: 17px;
+  padding-right: 17px;
+  padding-left: 17px;
+
   .center-in {
     margin-bottom:20px;
     .price{

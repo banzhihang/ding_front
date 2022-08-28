@@ -15,10 +15,11 @@
                 label="兑换码"
                 placeholder=""
                 border
+                label-width="5em"
                 :rules="[{ required: true, message: '请输入正确兑换码'}]"
             />
 
-            <van-field v-model="showPrice" label="价格" readonly/>
+            <van-field v-model="showPrice" label="价格" readonly label-width="5em"/>
             <van-field
                 v-model="email"
                 name=""
@@ -26,6 +27,7 @@
                 placeholder="激活码通过邮件告知"
                 clearable
                 border
+                label-width="5em"
                 :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
             />
 
@@ -35,6 +37,7 @@
                 label="验证码"
                 placeholder="请输入邮箱验证码"
                 clearable
+                label-width="5em"
                 border
                 :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
             >
@@ -55,7 +58,7 @@
             <span>实付:</span><span class="price">￥{{price}}</span>
           </div>
           <div class="pay-button">
-            <van-button  type="info" width="100%" loading-text="支付中..." :loading="isSubmit" @click="clickGoPay">去支付</van-button>
+            <van-button  type="info" width="100%" loading-text="支付中..." :loading="isSubmit" @click="clickGoPay" :disabled="isSubmit">去支付</van-button>
           </div>
         </div>
       </div>
@@ -250,7 +253,7 @@ export default {
   margin-top: 5%;
   margin-left: 0 ;
   .van-field {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 

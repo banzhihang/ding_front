@@ -2,14 +2,20 @@
   <div>
     <div class="head-link">
       <router-link to="/hand">
-        <van-notice-bar mode="closeable" left-icon="info-o" background="#ffffff" color="#4187F2" :scrollable="false">
-          新增手动打卡，点击本链接使用。
-        </van-notice-bar>
+        <div style="height: 30px">
+          <van-notice-bar mode="closeable" left-icon="info-o" background="#ffffff" color="#4187F2" :scrollable="false">
+            新增手动打卡，点击本链接使用。
+          </van-notice-bar>
+        </div>
+
       </router-link>
      <router-link to="/register_step">
-       <van-notice-bar mode="closeable" left-icon="info-o" background="#ffffff" color="#4187F2" :scrollable="false" @click="">
-         激活之前请点击本链接查看激活教程。
-       </van-notice-bar>
+       <div style="height: 25px">
+         <van-notice-bar mode="closeable" left-icon="info-o" background="#ffffff" color="#4187F2" :scrollable="false" @click="">
+           激活之前请点击本链接查看激活教程。
+         </van-notice-bar>
+       </div>
+
      </router-link>
 
     </div>
@@ -147,7 +153,7 @@
       <van-field
           readonly
           clickable
-          label="晨检时间"
+          label="健康打卡"
           v-model="morningText"
           @click="showSignMorningSelect = true"
           is-link
@@ -186,7 +192,6 @@
           clickable
           v-model="attenText"
           label="查寝时间"
-          required
           @click="showAttenSelect = true"
           is-link
           label-width="5em"
@@ -202,12 +207,12 @@
 
       <!--    提交-->
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="button" loading-text="提交中..." :loading="isSubmit" @click="clickSubmit"
+        <van-button round block type="info" native-type="button" loading-text="提交中..." :loading="isSubmit" @click="clickSubmit" :disabled="isSubmit"
         >提交</van-button>
       </div>
     </van-form>
     <div class="no-code" @click="clickBuy">
-      <p>👉👉👉 没有激活码？点击此处购买 👈👈👈</p>
+      <p>👉👉 没有激活码？点击此处购买 👈👈</p>
     </div>
   </div>
 </template>
@@ -575,8 +580,8 @@ export default {
 
 <style scoped lang="less">
 .van-field {
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .notice-swipe {
@@ -587,12 +592,12 @@ export default {
   padding-left: 15px;
 }
 .data-form {
-  margin-top: -20px;
+  margin-top: 10px;
   margin-left: 3px;
 }
 
 .head-link {
-  margin-left: -5px;
+  margin-left: -7px;
 }
 
 .email-btn {
@@ -609,9 +614,9 @@ export default {
 }
 
 .no-code {
-  margin-top: 40px;
+  margin-top: 20px;
   text-align: center;
   color: #1989f7;
-  font-size: 18px;
+  font-size: 17px;
 }
 </style>

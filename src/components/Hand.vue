@@ -121,17 +121,17 @@ export default {
 
 <style scoped lang="less">
 .data-form {
-  margin-top: -10px;
+  margin-top: 10px;
   margin-left: 3px;
 }
 .van-field {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .content {
   padding-left: 15px;
   padding-right: 15px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 </style>

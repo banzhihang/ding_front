@@ -9,6 +9,7 @@
           placeholder=""
           clearable
           required
+          label-width="5em"
           :rules="[{ required: true, message: '学号必填' }]"
       />
 
@@ -19,6 +20,7 @@
           name="密码"
           label="密码"
           clearable
+          label-width="5em"
           required
           placeholder="今日校园密码"
           :rules="[{ required: true, message: '密码必填' }]"
@@ -40,7 +42,7 @@
           <van-tab title="注意事项"  >
             <div class="content-in">
               <p>
-                1.你是今日校园永久激活码用户，只需补足{{gapPrice}}元即可获得钉钉打卡永久激活码
+                1.你是今日校园永久激活码用户，只需补足<span style="color: red"> ￥{{gapPrice}} </span>元即可获得钉钉打卡四年激活码
               </p>
               <van-divider></van-divider>
             </div>
@@ -111,12 +113,12 @@ export default {
 
 <style scoped lang="less">
 .data-form {
-  margin-top: -10px;
-  margin-left: 5px;
+  margin-top: 10px;
+  margin-left: 3px;
 }
 .van-field {
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .content {
   padding-left: 15px;

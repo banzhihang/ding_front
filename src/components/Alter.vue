@@ -125,7 +125,7 @@
         />
       </van-popup>
 
-      <van-field v-model="user_address_detail" label="详细地址"  v-show="showDetailedAddress"/>
+      <van-field v-model="user_address_detail" label="详细地址"  v-show="showDetailedAddress" label-width="5em"/>
 
       <!--    在校地点-->
       <van-field name="radio" label="在校地点" label-width="5em">
@@ -204,7 +204,7 @@
       </van-popup>
 
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit" loading-text="提交中..." :loading="isSubmit"
+        <van-button round block type="info" native-type="submit" loading-text="提交中..." :loading="isSubmit" :disabled="isSubmit"
         >提交</van-button>
       </div>
     </van-form>
@@ -644,15 +644,15 @@ export default {
 
 <style scoped lang="less">
 .data-form {
-  margin-top: -20px;
+  margin-top: -10px;
   margin-left: 3px;
 }
 .van-notice-bar {
   padding-left: 15px;
 }
 .van-field {
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .notice-swipe {
   height: 40px;
@@ -666,7 +666,7 @@ export default {
 }
 
 .head-link {
-  margin-left: -5px;
+  margin-left: -7px;
 }
 
 

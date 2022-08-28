@@ -4,7 +4,7 @@
       <van-tab title="激活步骤"  >
         <div class="content">
           <p>
-            1.若你还没进入通知群，请加入，方便消息通知。通知群有多个，若已经添加其他通知群，则无需重复添加。QQ群{{ QQNumber}}。或扫描下方二维码添加。
+            1.通知群有多个，若已添加其他通知群，则无需重复添加。QQ群{{ QQNumber}}。或扫描下方二维码添加。
           </p>
           <img style="width:20rem;" :src='QQPictuerUrl' alt="">
           <van-divider></van-divider>
@@ -21,9 +21,6 @@
           </p>
           <p style="color: #ff9a00">
             信息提交成功后确保收到邮件才算成功！
-          </p>
-          <p style="color: #ff9a00">
-            最后将该邮箱添加为联系人，防止以后收不到许多重要通知，导致打卡失败！
           </p>
           <router-link to="/home">
             <p style="color: blue;font-size: 18px">点击链接完成激活</p>

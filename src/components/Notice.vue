@@ -6,7 +6,8 @@
       </van-row>
     </div>
     <van-list v-model="loading" :finished="finished" inset>
-      <van-cell v-for="item in list" :key="item.id" :title="item.title" @click="jumpToArticle(item.id)" size="large" :icon="getIcon(item.kind)" center />
+      <van-cell v-for="item in list" :key="item.id" :title="item.title" @click="jumpToArticle(item.id)"
+                :icon="getIcon(item.kind)" center :border="false" is-link/>
     </van-list>
   </div>
 </template>
@@ -52,10 +53,13 @@ export default {
 <style scoped lang="less">
 .van-list{
   margin-top: 20px;
+  .van-cell__title {
+    font-size: 15.3px;
+  }
 }
 .head {
   margin-top: 5%;
-  margin-left: 6% ;
+  margin-left: 4% ;
   font-size: 18px;
 }
 
