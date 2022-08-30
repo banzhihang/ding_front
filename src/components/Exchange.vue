@@ -85,8 +85,8 @@ export default {
       if (res.code === 0){
         this.exCode = res.data.code
         this.gapPrice = res.data.gap_price
-        window.sessionStorage.setItem("exchange_code",this.exCode)
-        window.sessionStorage.setItem("price",this.gapPrice)
+        window.localStorage.setItem("exchange_code",this.exCode)
+        window.localStorage.setItem("price",this.gapPrice)
         this.showCode = true
       }else if (res.code === 1) {
         let msg = res.msg

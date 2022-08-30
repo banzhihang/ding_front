@@ -140,15 +140,15 @@ export default {
     },
     setNamePassword(student_number,password){
       if (student_number !== "" && student_number !== null){
-        window.sessionStorage.setItem("student_number",student_number)
+        window.localStorage.setItem("student_number",student_number)
       }
       if (password !== "" && password !== null){
-        window.sessionStorage.setItem("password",password)
+        window.localStorage.setItem("password",password)
       }
     },
     getNamePassword() {
-      const student_number = window.sessionStorage.getItem("student_number")
-      const password = window.sessionStorage.getItem("password")
+      const student_number = window.localStorage.getItem("student_number")
+      const password = window.localStorage.getItem("password")
       if (student_number !== null && student_number !== "") {
         this.student_number = student_number
       }

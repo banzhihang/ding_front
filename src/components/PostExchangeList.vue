@@ -85,8 +85,8 @@ export default {
       }
     },
     getNamePassword() {
-      const student_number = window.sessionStorage.getItem("student_number")
-      const password = window.sessionStorage.getItem("password")
+      const student_number = window.localStorage.getItem("student_number")
+      const password = window.localStorage.getItem("password")
       if (student_number !== null && student_number !== "") {
         this.student_number = student_number
       }

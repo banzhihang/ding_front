@@ -31,7 +31,7 @@
       </div>
       <van-divider></van-divider>
       <div class="center-in">
-        3.好友试用填写邀请码试用时间增加15天
+        3.好友试用填写邀请码试用时间增加10天
       </div>
       <van-divider></van-divider>
       <div class="center-in">

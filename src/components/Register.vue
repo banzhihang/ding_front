@@ -229,7 +229,9 @@ export default {
       confirmButtonColor:'#4187F2',
       theme: 'round-button',
     })
+    this.getNamePassword()
   },
+
   data () {
     return {
       username:'',
@@ -331,7 +333,7 @@ export default {
       this.isSubmit = false
 
       if (res.code === 0){
-        this.setNamePassword(this.student_number,this.password)
+        this.setNamePassword(this.student_number,this.password,this.email,this.username)
         this.$notify({type:'success',message:res.msg})
       }else if (res.code === 1) {
         let msg = res.msg
@@ -566,15 +568,40 @@ export default {
     clickBuy() {
      this.$router.push('/b')
     },
-    setNamePassword(student_number,password){
+    setNamePassword(student_number,password,email,username){
       if (student_number !== "" && student_number !== null){
-        window.sessionStorage.setItem("student_number",student_number)
+        window.localStorage.setItem("student_number",student_number)
       }
       if (password !== "" && password !== null){
-        window.sessionStorage.setItem("password",password)
+        window.localStorage.setItem("password",password)
+      }
+      if (email !== "" && email !== null){
+        window.localStorage.setItem("email",email)
+      }
+      if (username !== "" && username !== null){
+        window.localStorage.setItem("username",username)
       }
     },
-  }
+    getNamePassword() {
+      const student_number = window.localStorage.getItem("student_number")
+      const password = window.localStorage.getItem("password")
+      const email = window.localStorage.getItem("email")
+      const username = window.localStorage.getItem("username")
+      if (student_number !== null && student_number !== "") {
+        this.student_number = student_number
+      }
+      if (password !== null && password !== "") {
+        this.password = password
+      }
+      if (email !== null && email !== "") {
+        this.email = email
+      }
+      if (username !== null && username !== "") {
+        this.username = username
+      }
+    },
+  },
+
 }
 </script>
 

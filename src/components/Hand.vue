@@ -76,17 +76,22 @@ export default {
       confirmButtonColor:'#4187F2',
       theme: 'round-button',
     })
+    this.getNamePassword()
   },
   data () {
     return {
       student_number:'',
       password:'',
-      type: '健康打卡',
+      type: '未选择',
       isSubmit: false
     }
   },
   methods: {
     async onSubmit() {
+      if (this.type === "未选择") {
+        let msg = "请选择打卡类型"
+        return this.$notify({type:'warning',message:msg})
+      }
       let data = {
         student_number: this.student_number,
         password: this.password,
@@ -113,6 +118,24 @@ export default {
         }
         msg = msg.replace('，','')
         this.$notify({type:'warning',message:msg})
+      }
+    },
+    getNamePassword() {
+      const student_number = window.localStorage.getItem("student_number")
+      const password = window.localStorage.getItem("password")
+      const email = window.localStorage.getItem("email")
+      const username = window.localStorage.getItem("username")
+      if (student_number !== null && student_number !== "") {
+        this.student_number = student_number
+      }
+      if (password !== null && password !== "") {
+        this.password = password
+      }
+      if (email !== null && email !== "") {
+        this.email = email
+      }
+      if (username !== null && username !== "") {
+        this.username = username
       }
     },
   },

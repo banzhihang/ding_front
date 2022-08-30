@@ -99,8 +99,8 @@ export default {
   },
   methods:{
     getExCodePrice() {
-      const exchange_code = window.sessionStorage.getItem("exchange_code")
-      const price = window.sessionStorage.getItem("price")
+      const exchange_code = window.localStorage.getItem("exchange_code")
+      const price = window.localStorage.getItem("price")
       if (exchange_code !== null && exchange_code !== "") {
         this.exchange_code = exchange_code
       }

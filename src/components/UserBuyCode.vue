@@ -225,6 +225,7 @@ export default {
       this.isSubmit = false
       // 支付页面跳转
       if (res.code === 0) {
+        this.setEmail(this.email)
         window.location.href = res.data.url
       }
       else if (res.code === 1) {
@@ -308,6 +309,17 @@ export default {
     clickInvite() {
       this.$router.push('/notice/12')
     },
+    setEmail(email) {
+      if (email !== "" && email !== null){
+        window.localStorage.setItem("email",email)
+      }
+    },
+    getEmail() {
+      const email = window.localStorage.getItem("email")
+      if (email !== null && email !== "") {
+        this.email = email
+      }
+    }
   },
   async created() {
     if (this.checkWeiXinBrowser()) {
@@ -336,6 +348,7 @@ export default {
     let arr = Object.keys(this.timeToPrice);
     this.activeVar = arr.length - 1
     this.$forceUpdate()
+    this.getEmail()
     this.timeOnConfirm(c)
   }
 }
