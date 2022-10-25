@@ -7,7 +7,7 @@
     </div>
     <van-list v-model="loading" :finished="finished" inset>
       <van-cell v-for="item in list" :key="item.id" :title="item.title" @click="jumpToArticle(item.id)"
-                :icon="getIcon(item.kind)" center :border="false" is-link/>
+                :icon="getIcon(item.kind)" center :border="false" is-link />
     </van-list>
   </div>
 </template>

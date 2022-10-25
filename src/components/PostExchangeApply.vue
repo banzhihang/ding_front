@@ -8,7 +8,9 @@
             label="学号"
             placeholder=""
             clearable
+            label-width="5em"
             required
+            :border="false"
             :rules="[{ required: true, message: '学工号必填' }]"
         />
 
@@ -17,9 +19,11 @@
             v-model="password"
             type="password"
             name="密码"
+            label-width="5em"
             label="密码"
             clearable
             required
+            :border="false"
             placeholder=""
             :rules="[{ required: true, message: '密码必填' }]"
         />
@@ -28,17 +32,22 @@
         <!--    密码-->
         <van-field
             v-model="username"
-            name="收款人姓名"
-            label="收款人姓名"
+            name="姓名"
+            label="姓名"
             clearable
+            label-width="5em"
             required
+            :border="false"
             placeholder="管理员付款时会核对信息"
             :rules="[{ required: true, message: '收款人姓名必填'}]"
         />
 
-        <van-field name="uploader" label="收款二维码" required>
+        <van-field name="uploader" label="收款码" required  label-width="5em" :border="false">
           <template #input>
-            <van-uploader v-model="fileList" :max-count="1" :after-read="imgAdd"/>
+            <van-uploader v-model="fileList" :max-count="1" :after-read="imgAdd" max-size="2621440" @oversize="pictureTooBig"/>
+            <div style="color: #999999">
+              请勿使用截图
+            </div>
           </template>
         </van-field>
 
@@ -128,11 +137,28 @@ export default {
         msg = msg.replace('，','')
         this.$notify({type:'warning',message:msg})
       }
+    },
+    pictureTooBig(){
+      let msg = "图片过大，最大为2.5兆，请重新上传"
+      this.$notify({type:'warning',message:msg})
+    },
+    getNamePassword() {
+      const student_number = window.localStorage.getItem("student_number")
+      const password = window.localStorage.getItem("password")
+      if (student_number !== null && student_number !== "") {
+        this.student_number = student_number
+      }
+      if (password !== null && password !== "") {
+        this.password = password
+      }
     }
   },
   created() {
     this.student_number = this.$route.params.student_number
     this.password = this.$route.params.password
+    if (this.student_number === "" || this.student_number === undefined || this.password === "" || this.password === undefined) {
+      this.getNamePassword()
+    }
   }
 }
 </script>
@@ -140,7 +166,6 @@ export default {
 <style scoped lang="less">
 .data-form {
   margin-top: 10px;
-  margin-left: 3px;
 }
 
 

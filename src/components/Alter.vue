@@ -16,7 +16,7 @@
           placeholder=""
           clearable
           required
-          border
+          :border="false"
           label-width="5em"
           :rules="[{ required: true, message: '学号必填' }]"
       />
@@ -28,6 +28,7 @@
           label="密码"
           clearable
           required
+          :border="false"
           label-width="5em"
           placeholder="西大办事大厅密码"
           :rules="[{ required: true, message: '密码必填' }]"
@@ -39,6 +40,7 @@
           name="新邮箱"
           label="新邮箱"
           clearable
+          :border="false"
           label-width="5em"
           placeholder="不修改邮箱请不要填写"
           :rules="[{required: isAlterEmail, message: '请输入正确邮箱',pattern: isAlterEmail?emailRex:''}]"
@@ -51,7 +53,7 @@
           label="验证码"
           placeholder="请输入邮箱验证码"
           clearable
-          border
+          :border="false"
           label-width="5em"
           :rules="[{required: isAlterEmail, message: '请输入正确验证码',pattern: isAlterEmail?validCodeRex:''}]"
           v-show="isAlterEmail"
@@ -65,7 +67,7 @@
         </template>
       </van-field>
 
-      <van-field name="邮箱" label="邮箱" label-width="5em">
+      <van-field name="邮箱" label="邮箱" label-width="5em" :border="false">
         <template #input>
           <van-radio-group v-model="isAlterEmail" direction="horizontal">
             <van-radio :name="false">不修改</van-radio>
@@ -75,7 +77,7 @@
       </van-field>
 
       <!--    打卡状态-->
-      <van-field name="打卡状态" label="打卡状态" label-width="5em">
+      <van-field name="打卡状态" label="打卡状态" label-width="5em" :border="false">
         <template #input>
           <van-radio-group v-model="status" direction="horizontal">
             <van-radio name="1">正常打卡</van-radio>
@@ -107,7 +109,7 @@
 <!--      </van-field>-->
 
       <!--    定位地点-->
-      <van-field name="radio" label="定位地点" label-width="5em">
+      <van-field name="radio" label="定位地点" label-width="5em" :border="false">
         <template #input>
           <van-radio-group v-model="location" direction="horizontal">
             <van-radio name="2" @click="showDetailedAddress=false">不修改</van-radio>
@@ -125,10 +127,10 @@
         />
       </van-popup>
 
-      <van-field v-model="user_address_detail" label="详细地址"  v-show="showDetailedAddress" label-width="5em"/>
+      <van-field v-model="user_address_detail" label="详细地址"  v-show="showDetailedAddress" label-width="5em" :border="false"/>
 
       <!--    在校地点-->
-      <van-field name="radio" label="在校地点" label-width="5em">
+      <van-field name="radio" label="在校地点" label-width="5em" :border="false">
         <template #input>
           <van-radio-group v-model="selectSchool" direction="horizontal">
             <van-radio name="不做修改" @click="showBeiPei=false;schoolText='北碚';school='不做修改'">不修改</van-radio>
@@ -170,10 +172,11 @@
       <van-field
           readonly
           clickable
-          label="晨检时间"
+          label="健康打卡"
           v-model="morningText"
           @click="showSignMorningSelect = true"
           is-link
+          :border="false"
           label-width="5em"
       />
       <van-popup v-model="showSignMorningSelect" round position="bottom" :close-on-click-overlay="false">
@@ -189,6 +192,7 @@
           readonly
           clickable
           label="查寝时间"
+          :border="false"
           v-model="attenText"
           @click="showAttenSelect = true"
           is-link
@@ -213,7 +217,8 @@
                  close-icon-position="top-left"
                  :style="{ height: '90%' }"
                  position="bottom"
-                 close-icon="close"
+                 close-icon="cross"
+                 :close-on-click-overlay="false"
       >
         <alter-info :alterInfos="afterAlterInfo" @closed="closed"></alter-info>
       </van-popup>
@@ -573,7 +578,7 @@ export default {
     // 验证码倒计时
     countDown() {
       this.timer = setInterval(() => {
-        this.sendBtnText = `${this.counter} 秒后获取`
+        this.sendBtnText = `${this.counter}秒获取`
         this.counter--
         if (this.counter < 0) {
           this.reset()
@@ -645,7 +650,6 @@ export default {
 <style scoped lang="less">
 .data-form {
   margin-top: -10px;
-  margin-left: 3px;
 }
 .van-notice-bar {
   padding-left: 15px;
@@ -661,17 +665,17 @@ export default {
 .pop{
   /deep/ .van-icon {
     top: 23px;
-    left: 30px;
+    left: 27px;
   }
 }
 
 .head-link {
-  margin-left: -7px;
+  margin-left: -5px;
 }
 
 
 .email-btn {
-  width: 90px;
+  width: 80px;
   height: 30px;
   position: relative;
   .email-btn-in{
@@ -680,6 +684,9 @@ export default {
     right: 0;
     width: 100%;
     height: 100%;
+    .van-button {
+      border-radius: 5px;
+    }
   }
 }
 </style>

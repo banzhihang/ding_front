@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" >
+    <van-form @submit="onSubmit" class="data-form" validate-trigger="onSubmit" validate-first :show-error="false">
       <!--    学工号-->
       <van-field
           v-model="student_number"
@@ -9,6 +9,7 @@
           placeholder=""
           clearable
           required
+          :border="false"
           label-width="5em"
           :rules="[{ required: true, message: '学号必填' }]"
       />
@@ -22,6 +23,7 @@
           clearable
           label-width="5em"
           required
+          :border="false"
           placeholder="今日校园密码"
           :rules="[{ required: true, message: '密码必填' }]"
       />
@@ -32,8 +34,8 @@
         >提交</van-button>
       </div>
 
-      <van-cell-group class="invite-info" v-show="showCode" style="margin-top: 30px">
-        <van-cell title="你的兑换码为" :value="exCode" />
+      <van-cell-group class="invite-info" v-show="showCode" style="margin-top: 30px" :border="false">
+        <van-cell title="兑换码" :value="exCode" />
       </van-cell-group>
     </van-form>
     <div>
@@ -42,9 +44,9 @@
           <van-tab title="注意事项"  >
             <div class="content-in">
               <p>
-                1.你是今日校园永久激活码用户，只需补足<span style="color: red"> ￥{{gapPrice}} </span>元即可获得钉钉打卡四年激活码
+                你是今日校园永久激活码用户，只需补足<span style="color: red"> ￥{{gapPrice}} </span>元即可获得钉钉打卡四年激活码
               </p>
-              <van-divider></van-divider>
+
             </div>
           </van-tab>
         </van-tabs>
@@ -114,7 +116,6 @@ export default {
 <style scoped lang="less">
 .data-form {
   margin-top: 10px;
-  margin-left: 3px;
 }
 .van-field {
   margin-bottom: 5px;
@@ -129,7 +130,11 @@ export default {
 .apply {
   display: flex;
   justify-content: flex-end;
-  margin-right: 15px;
+  margin-right: 5px;
+  margin-top: 20px;
+  .van-button {
+    border-radius: 8px;
+  }
 }
 
 </style>

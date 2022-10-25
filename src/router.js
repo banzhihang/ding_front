@@ -206,7 +206,7 @@ export default new Router({
                 component: PostExchangeList,
                 name:"PostExchangeList",
                 meta:{
-                    title: '历史申请'
+                    title: '历史提现'
                 }
             },
             {

@@ -15,12 +15,18 @@
 
       <div class="code-list">
         <div v-for="(item,key,index) in timeToPrice" class="code-list-in" :key="index" :class="{'activeCss':activeVar===index}" @click="clickTime(item,index)">
-          <div class="time-txt">
-            <span style="color: #5e5757;font-size: 15px">{{ item.desc }}</span>
-            <span style="margin-left: 3px;color: #e3b05f;font-size: 15px">￥{{ item.price }}</span>
+          <div class="text-warp">
+            <div class="time-txt">
+              <span style="color: #5e5757;font-size: 15px">{{ item.desc }}</span>
+              <span style="margin-left: 3px;color: #e3b05f;font-size: 15px">￥{{ item.price }}</span>
+            </div>
+            <div class="discount">
+              邀请码优惠-￥<span>{{item.be_invite_price}}</span>
+            </div>
           </div>
-          <div class="discount">
-            邀请码优惠-￥<span>{{item.be_invite_price}}</span>
+
+          <div class="limited-offer" v-if="item.limited_time_offer === 1">
+            限时优惠
           </div>
         </div>
       </div>
@@ -32,21 +38,21 @@
               name="邀请码"
               label="邀请码"
               placeholder="填写邀请码可享优惠"
-              border
+              :border="false"
               :rules="[{ required: false}]"
               @blur="inputInviteCode"
               label-width="5em"
           />
 
-          <van-field v-model="price" label="价格" readonly label-width="5em"/>
-          <van-field v-model="invited_price" label="优惠" label-width="5em" readonly />
+          <van-field v-model="price" label="价格" readonly label-width="5em" :border="false"/>
+          <van-field v-model="invited_price" label="优惠" label-width="5em" readonly :border="false"/>
           <van-field
               v-model="email"
               name=""
               label="接收邮箱"
               placeholder="激活码通过邮件告知"
               clearable
-              border
+              :border="false"
               required
               label-width="5em"
               :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
@@ -58,7 +64,7 @@
               label="验证码"
               placeholder="请输入邮箱验证码"
               clearable
-              border
+              :border="false"
               required
               label-width="5em"
               :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
@@ -84,8 +90,9 @@
         </div>
       </div>
       <div class="no-code" @click="clickInvite">
-        <p>👉👉 没有邀请码？点击此向朋友获取 👈👈</p>
+        <p>👉👉 没有邀请码？点击向朋友获取 👈👈</p>
       </div>
+
     </div>
 
   </div>
@@ -144,9 +151,9 @@ export default {
 
       this.price = codeData["price"]
       if (this.invite_code !== "") {
-        this.real_price = parseInt(this.price) - parseInt(this.invited_price)
+        this.real_price = parseFloat(this.price) - parseFloat(this.invited_price)
       } else {
-        this.real_price = parseInt(this.price)
+        this.real_price = parseFloat(this.price)
       }
 
       this.price = "￥" + this.price
@@ -156,10 +163,6 @@ export default {
 
     // 邀请码输入之后校验邀请码
     async inputInviteCode() {
-      if (this.checkWeiXinBrowser()) {
-        return this.$notify({type:'warning',message:"请用浏览器打开此页面"})
-      }
-
       if (this.invite_code === "") {
         return
       }
@@ -197,7 +200,14 @@ export default {
     // 支付
     async submit() {
       if (this.checkWeiXinBrowser()) {
-        return this.$notify({type:'warning',message:"请用浏览器打开此页面"})
+        this.isWeiXin = true
+        return
+      }
+
+      if(!this.isMobile()) {
+        this.isWeiXin = true
+        this.emptyDesc = "请用手机浏览器打开此页面"
+        return
       }
 
       const codeData = this.timeToPrice[this.timeText]
@@ -247,6 +257,17 @@ export default {
 
     // 点击去支付
     clickGoPay() {
+      if (this.checkWeiXinBrowser()) {
+        this.isWeiXin = true
+        return
+      }
+
+      if(!this.isMobile()) {
+        this.isWeiXin = true
+        this.emptyDesc = "请用手机浏览器打开此页面"
+        return
+      }
+
       // 防止还没有获取过验证码就直接去支付
       if (this.isValidEmail === false) {
         return this.$notify({type: 'warning', message: "请先获取验证码"})
@@ -257,7 +278,7 @@ export default {
     // 验证码倒计时
     countDown() {
       this.timer = setInterval(() => {
-        this.sendBtnText = `${this.counter} 秒后获取`
+        this.sendBtnText = `${this.counter}秒获取`
         this.counter--
         if (this.counter < 0) {
           this.reset()
@@ -275,8 +296,16 @@ export default {
     // 发送验证码
     async sendCode() {
       if (this.checkWeiXinBrowser()) {
-        return this.$notify({type:'warning',message:"请用浏览器打开此页面"})
+        this.isWeiXin = true
+        return
       }
+
+      if(!this.isMobile()) {
+        this.isWeiXin = true
+        this.emptyDesc = "请用手机浏览器打开此页面"
+        return
+      }
+
 
       const postData = {
         "email":this.email
@@ -294,9 +323,13 @@ export default {
       this.activeVar=index
       this.timeOnConfirm(item["desc"])
     },
+
     checkWeiXinBrowser() {
-      return /MicroMessenger/i.test(window.navigator.userAgent);
+      var isIosQQ = ( /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) && /\sQQ/i.test(navigator.userAgent));
+      var isAndroidQQ = ( /(Android)/i.test(navigator.userAgent) && /MQQBrowser/i.test(navigator.userAgent) && /\sQQ/i.test((navigator.userAgent).split('MQQBrowser')));
+      return /MicroMessenger/i.test(window.navigator.userAgent) || isAndroidQQ || isIosQQ
     },
+
     copyLink(){
       let oInput = document.createElement('input')
       oInput.value = frontBaseUrl + "b"
@@ -322,17 +355,6 @@ export default {
     }
   },
   async created() {
-    if (this.checkWeiXinBrowser()) {
-      this.isWeiXin = true
-      return
-    }
-
-    if(!this.isMobile()) {
-      this.isWeiXin = true
-      this.emptyDesc = "请用手机浏览器打开此页面"
-      return
-    }
-
     const {data:res} = await this.$http.get('/code_info')
     let c
       for (const key in res.data) {
@@ -387,12 +409,13 @@ export default {
     width: 35%;
     .van-button {
       width: 100%;
+      border-radius: 8px;
     }
   }
 }
 
 .email-btn {
-  width: 90px;
+  width: 80px;
   height: 30px;
   position: relative;
   .email-btn-in{
@@ -401,33 +424,54 @@ export default {
     right: 0;
     width: 100%;
     height: 100%;
+    .van-button {
+      border-radius: 5px;
+    }
   }
 }
 
 .code-list {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: 3% ;
   margin-right: 4%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: space-between;
+  align-items: center;
   .code-list-in{
     box-sizing:border-box;
     border-radius: 5px;
     margin-right: 2px;
     margin-left: 2px;
-    margin-top: 5px;
+    margin-top: 8px;
     border:1px solid #e3e4e6;
-    width: 112px;
     height: 58px;
-    .discount {
-      margin-top: 3px;
-      font-size: 10px;
-      color: #999999;
+    width:32%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .text-warp{
+      .discount {
+        font-size: 10px;
+        color: #999999;
+      }
     }
-    .time-txt{
-      margin-top: 10px;
+
+    .limited-offer{
+      position: absolute;
+      top: -6px;
+      right: -2px;
+      font-size: 10px;
+      color: white;
+      width:50%;
+      height:27%;
+      background-color:#f86e6b;
+      display:flex;
+      align-items: center;
+      border-radius:5px 2px 5px 2px;
+      justify-content:center;
     }
   }
 }
@@ -443,6 +487,7 @@ export default {
   text-align: center;
   .van-button {
     width: 100%;
+    border-radius: 10px;
   }
 }
 

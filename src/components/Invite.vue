@@ -15,33 +15,39 @@
 <!--    </div>-->
     <div class="center">
         <div class="center-in">
-          1.邀请1位好友试用，即可获得 <span style="color: red">{{ i60.invite_price }}元</span> 奖励
+          1.邀请1位好友试用，可获得 <span style="color: red">{{ i60.invite_price }}元</span> 奖励
         </div>
       <van-divider></van-divider>
       <div class="center-in">
         2.邀请1位好友购买
         <span class="time">半年</span>、
         <span class="time">一年</span>、<span class="time">两年</span>、
-        <span class="time">四年</span> 激活码，分别可以获得
+        <span class="time">三年</span>、
+        <span class="time">四年</span> 激活码，可获得
         <span class="price">{{i20.invite_price}}元、
         </span><span class="price">{{i30.invite_price}}元、
       </span ><span class="price">{{i40.invite_price}}元、
+        <span class="price">{{i12.invite_price}}元、
+      </span>
       </span><span class="price">{{i50.invite_price}}元</span>
-        奖励（时长半年以下没有邀请奖励）
+        奖励
       </div>
       <van-divider></van-divider>
       <div class="center-in">
-        3.好友试用填写邀请码试用时间增加10天
+        3.试用填写邀请码试用时间增加10天
       </div>
       <van-divider></van-divider>
       <div class="center-in">
-        4.凭你的邀请码购买 <span class="time">半年</span>、
+        4.使用邀请码购买 <span class="time">半年</span>、
         <span class="time">一年</span>、<span class="time">两年</span>、
+        <span class="time">三年</span>、
         <span class="time">四年</span> 激活码，
-        分别可享
+        可享
         <span class="price">{{i20.be_invite_price}}元、
         </span><span class="price">{{i30.be_invite_price}}元、
       </span ><span class="price">{{i40.be_invite_price}}元、
+        <span class="price">{{i12.be_invite_price}}元、
+      </span>
       </span><span class="price">{{i50.be_invite_price}}元</span> 优惠
       </div>
       <van-divider></van-divider>
@@ -50,13 +56,12 @@
       </div>
       <van-divider></van-divider>
       <div class="center-in">
-        6.提现请点击下方按钮，查看自己的可提现余额，点击提交提现申请即可。管理员收到提现请求之后会向你付款。
+        6.提现请点击下方按钮，查看自己的可提现余额，点击提现余额即可。管理员收到申请之后会向你付款
       </div>
-      <van-divider></van-divider>
 
     </div>
 
-    <div style="margin: 1px 20px 20px 20px" class="btn">
+    <div style="margin: 50px 20px 20px 20px" class="btn">
       <van-row gutter="15">
         <van-col span="24">
           <van-button  round type="info" native-type="button"  size="large" to="/invite_code">查看我的邀请码</van-button>
@@ -95,6 +100,10 @@ export default {
       i10:{
         invite_price: 0,
         be_invite_price: 0
+      },
+      i12:{
+        invite_price: 0,
+        be_invite_price: 0
       }
     }
   },
@@ -105,6 +114,7 @@ export default {
     this.i40 = res.data.i40
     this.i30 = res.data.i30
     this.i20 = res.data.i20
+    this.i12 = res.data.i12
   }
 }
 </script>
@@ -147,7 +157,7 @@ export default {
 .van-button {
   margin-bottom: 15px;
   //border-radius:10px;
-  box-shadow:1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+  //box-shadow:1px 1px 5px 1px rgba(0, 0, 0, 0.1);
 }
 
 </style>

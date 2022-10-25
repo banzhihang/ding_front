@@ -8,6 +8,7 @@
         placeholder=""
         clearable
         required
+        :border="false"
         label-width="5em"
         :rules="[{ required: true, message: '学号必填' }]"
     />
@@ -20,13 +21,14 @@
         label="密码"
         clearable
         required
+        :border="false"
         label-width="5em"
         placeholder="西大办事大厅密码"
         :rules="[{ required: true, message: '密码必填' }]"
     />
 
 <!--    手动打卡类型-->
-    <van-field name="radio" label="类型" label-width="5em">
+    <van-field name="radio" label="类型" label-width="5em" :border="false">
       <template #input>
         <van-radio-group v-model="type" direction="horizontal">
           <van-radio name="健康打卡">健康打卡</van-radio>
@@ -36,14 +38,14 @@
     </van-field>
 
     <!--    提示内容-->
-    <div style="margin:10px">
+    <div style="margin:11px">
       <van-tabs color="#4187F2">
         <van-tab title="注意事项"  >
           <div class="content">
 <!--            <p>-->
 <!--              1.应用场景：今天下午15.00~15.30你们在xx教有个会议，你们老师发布了一个只能在xx教签到的定位签到，此时在15.00之后提交手动打卡请求，系统就会帮你完成打卡，你就不用跑去xx教室了。-->
 <!--            </p>-->
-            <van-divider></van-divider>
+
             <p>
               1.提交时间必须在签到允许的时间范围内，提前提交会导致检测不到任务，导致打卡失败。
             </p>
@@ -145,7 +147,6 @@ export default {
 <style scoped lang="less">
 .data-form {
   margin-top: 10px;
-  margin-left: 3px;
 }
 .van-field {
   margin-bottom: 5px;

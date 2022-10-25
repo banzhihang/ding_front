@@ -9,15 +9,11 @@
           <img style="width:20rem;" :src='QQPictuerUrl' alt="">
           <van-divider></van-divider>
           <p>
-            2.无需钉钉账号密码，只需西大办事大厅账号密码。请点击下方链接登录西大办事大厅确定账号密码。
+            2.自动打卡无需钉钉账号密码，只需西大办事大厅账号密码。不影响钉钉登录，使用。
           </p>
-          <img style="width:22rem;" src='http://cdn.hotschool.ltd/%E5%8A%9E%E4%BA%8B%E5%A4%A7%E5%8E%85.jpg' alt="">
-          <div style="margin-top: 5px;font-size: 18px">
-            <a href="https://uaaap.swu.edu.cn/cas/login?service=http%3A%2F%2Fi.swu.edu.cn%2FPersonalApplications%2FviewPageV3">点击登录办事大厅</a>
-          </div>
           <van-divider></van-divider>
           <p>
-            3.确保成功登录一次，若忘记密码请找回。登录成功所用密码即为所需账号密码。点击下方链接试用
+            3.确保成功登录一次西大办事大厅，若忘记密码请找回。登录成功所用密码即为所需账号密码。点击下方链接激活。
           </p>
 
           <p style="color: #ff9a00">

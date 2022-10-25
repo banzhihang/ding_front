@@ -25,6 +25,7 @@
           placeholder=""
           clearable
           required
+          :border="false"
           label-width="5em"
           :rules="[{ required: true, message: '学号必填' }]"
       />
@@ -37,6 +38,7 @@
           label="密码"
           clearable
           required
+          :border="false"
           label-width="5em"
           placeholder="西大办事大厅密码"
           :rules="[{ required: true, message: '密码必填' }]"
@@ -48,6 +50,7 @@
           label="姓名"
           clearable
           required
+          :border="false"
           label-width="5em"
           placeholder=""
           :rules="[{ required: true, message: '姓名必填' }]"
@@ -60,6 +63,7 @@
           label="邀请码"
           placeholder="填写邀请码试用时间增加10天"
           clearable
+          :border="false"
           label-width="5em"
       />
 
@@ -70,6 +74,7 @@
           name="邮箱"
           label="邮箱"
           clearable
+          :border="false"
           label-width="5em"
           required
           placeholder="重要信息会通过邮件告知"
@@ -81,7 +86,7 @@
           label="验证码"
           placeholder="请输入邮箱验证码"
           clearable
-          border
+          :border="false"
           label-width="5em"
           required
           :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
@@ -98,7 +103,7 @@
 
 
       <!--    在校地点-->
-      <van-field name="radio" label="在校地点" label-width="5em">
+      <van-field name="radio" label="在校地点" label-width="5em" :border="false">
         <template #input>
           <van-radio-group v-model="selectSchool" direction="horizontal">
             <van-radio name="西南大学荣昌校区" @click="showBeiPei=false;schoolText='北碚';school='西南大学荣昌校区'">荣昌</van-radio>
@@ -124,9 +129,10 @@
           v-model="morningText"
           @click="showSignMorningSelect = true"
           is-link
+          :border="false"
           label-width="5em"
       />
-      <van-popup v-model="showSignMorningSelect" round position="bottom" :close-on-click-overlay="false" label-width="5em">
+      <van-popup v-model="showSignMorningSelect" round position="bottom" :close-on-click-overlay="false" label-width="5em" :border="false">
         <van-picker
             show-toolbar
             :columns="signMorningColumns"
@@ -145,6 +151,7 @@
           v-model="attenText"
           @click="showAttenSelect = true"
           is-link
+          :border="false"
           label-width="5em"
       />
       <van-popup v-model="showAttenSelect" round position="bottom" :close-on-click-overlay="false">
@@ -163,7 +170,7 @@
       </div>
     </van-form>
     <div class="no-code" @click="clickInvite">
-      <p>👉👉 没有邀请码？点击此向朋友获取 👈👈</p>
+      <p>👉👉 没有邀请码？点击向朋友获取 👈👈</p>
     </div>
   </div>
 
@@ -467,7 +474,7 @@ export default {
     // 验证码倒计时
     countDown() {
       this.timer = setInterval(() => {
-        this.sendBtnText = `${this.counter} 秒后获取`
+        this.sendBtnText = `${this.counter}秒获取`
         this.counter--
         if (this.counter < 0) {
           this.reset()
@@ -571,15 +578,14 @@ export default {
 }
 .data-form {
   margin-top: 10px;
-  margin-left: 3px;
 }
 
 .head-link {
-  margin-left: -7px;
+  margin-left: -8px;
 }
 
 .email-btn {
-  width: 90px;
+  width: 80px;
   height: 30px;
   position: relative;
   .email-btn-in{
@@ -588,6 +594,9 @@ export default {
     right: 0;
     width: 100%;
     height: 100%;
+    .van-button {
+      border-radius: 5px;
+    }
   }
 }
 

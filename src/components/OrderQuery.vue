@@ -18,17 +18,17 @@
       </div>
 
       <div style="margin:10px">
-            <div style="text-align: center;margin-top: 70px;margin-bottom: 40px;font-size: 20px">
+            <div style="text-align: center;margin-top: 50px;margin-bottom: 30px;font-size: 20px">
               激活步骤
             </div>
             <div class="content">
               <p>
-                1.复制激活码，点击下方激活链接。注意，最后记得是点激活，不要点试用。
+                1.复制激活码，点击下方激活链接。注意，最后记得是点激活，不要点试用
               </p>
               <p @click="goToRegisterStep" style="color: blue;font-size: 18px">点击激活</p>
               <van-divider></van-divider>
               <p>
-                2.重要信息已经通过邮件发送给你了，请查收邮箱，若收件箱中没有，请检查垃圾邮箱。
+                2.重要信息已经通过邮件发送给你了，请查收邮箱，若收件箱中没有，请检查垃圾邮箱
               </p>
               <van-divider></van-divider>
               <p>
@@ -149,7 +149,7 @@ export default {
 
   .pay-info-in {
     &:first-child{
-      margin-top: 40px;
+      margin-top: 30px;
     }
     font-size: 14px;
     display: flex;
@@ -159,7 +159,7 @@ export default {
 
 }
 .title {
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
   font-size: 20px;
 }
@@ -178,6 +178,7 @@ export default {
   text-align: center;
   .van-button {
     width: 100%;
+    border-radius: 10px;
   }
 }
 </style>

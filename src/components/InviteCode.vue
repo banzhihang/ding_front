@@ -8,6 +8,7 @@
         placeholder=""
         clearable
         required
+        :border="false"
         label-width="5em"
         :rules="[{ required: true, message: '学号必填' }]"
     />
@@ -20,6 +21,7 @@
         label="密码"
         clearable
         required
+        :border="false"
         label-width="5em"
         placeholder="西大办事大厅密码"
         :rules="[{ required: true, message: '密码必填' }]"
@@ -31,9 +33,9 @@
       >查询</van-button>
     </div>
 
-    <van-cell-group class="invite-info" v-show="showCode" style="margin-top: 30px">
-      <van-cell title="你的邀请码为" :value="exCode" />
-      <van-cell title="可提现金额为" :value="exCount" />
+    <van-cell-group class="invite-info" v-show="showCode" style="margin-top: 30px" :border="false">
+      <van-cell title="邀请码" :value="exCode" :border="false"/>
+      <van-cell title="可提现余额" :value="exCount" :border="false"/>
     </van-cell-group>
 
     <div style="margin:5px" v-if="showCode">
@@ -41,19 +43,19 @@
         <van-tab title="注意事项"  >
           <div class="content-in">
             <p>
-              1.提现现金请点击下方提交提现申请，上传收款码提交即可
+              1.提现请点击下方提现余额，上传收款码提交即可
             </p>
             <van-divider></van-divider>
             <p>
               2.管理员收到提现申请之后会向你上传的收款码支付
             </p>
-            <van-divider></van-divider>
+
           </div>
         </van-tab>
       </van-tabs>
       <div class="apply">
-        <van-button type="info" native-type="button" @click="getToHistory">查看提现历史</van-button>
-        <van-button type="info" native-type="button" @click="goToApply">提交提现申请</van-button>
+        <van-button type="info" native-type="button" @click="getToHistory" class="apply-in" round>历史提现</van-button>
+        <van-button type="info" native-type="button" @click="goToApply" class="apply-in" round>提现余额</van-button>
       </div>
     </div>
   </van-form>
@@ -166,7 +168,6 @@ export default {
 <style scoped lang="less">
 .data-form {
   margin-top: 10px;
-  margin-left: 5px;
 }
 .van-field {
   margin-bottom: 5px;
@@ -174,8 +175,8 @@ export default {
 }
 
 .content-in {
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin-bottom: 50px;
 }
 
@@ -187,6 +188,9 @@ export default {
 .apply {
   display: flex;
   justify-content: space-around;
+  .apply-in {
+    width: 40%;
+  }
 }
 
 </style>

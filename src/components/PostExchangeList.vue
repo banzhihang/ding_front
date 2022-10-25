@@ -2,7 +2,7 @@
   <div>
     <div class="head">
       <van-row type="flex">
-        <van-col span="9">历史申请</van-col>
+        <van-col span="9">历史提现</van-col>
       </van-row>
     </div>
     <div class="list-in" v-for="(item,index) in itemList">
@@ -20,7 +20,7 @@
         </div>
         <div class="history-info">
           <span>完成时间</span>
-          <span>{{item.done_time}}</span>
+          <span>{{getDoneTime(item.done_time)}}</span>
         </div>
         <div class="history-info">
           <span>完成状态</span>
@@ -56,6 +56,12 @@ export default {
       const {data:res} = await this.$http.post('/apply_list',data)
       this.itemList = res.data
       this.finished = true
+    },
+    getDoneTime(time){
+      if (time === null) {
+        return "———"
+      }
+      return time
     },
     showBtn(isDone,index){
       return isDone === "未完成" && index ===0
@@ -98,7 +104,7 @@ export default {
   async created() {
     this.student_number = this.$route.params.student_number
     this.password = this.$route.params.password
-    if (this.student_number === "" || this.student_number === null || this.password === "" || this.password === null) {
+    if (this.student_number === "" || this.student_number === undefined || this.password === "" || this.password === undefined) {
         this.getNamePassword()
     }
     await this.getList()

@@ -3,14 +3,15 @@
     <div class="header">
       <div class="title">这是你当前的信息</div>
       <div class="confirm">
-        <van-button type="primary" size="small" :plain="true"  square @click="closed">确定</van-button>
+        <van-button type="info" size="small" :plain="true"  square @click="closed">确定</van-button>
       </div>
 
     </div>
     <van-cell-group :border="false" >
-      <van-cell :title="k" :value="v" v-for="(v,k) in alterInfos"
+      <van-cell :title="k" :value="v" v-for="(v,k) in alterInfos" :border="false"
                 size="large"
-                :key="k" />
+                :key="k"
+      />
     </van-cell-group>
   </div>
 </template>
@@ -81,13 +82,13 @@ export default {
   margin-bottom: 10px;
 }
 .content {
-  margin: 20px 10px 10px 10px;
+  margin: 20px 0px 10px 0px;
 }
 .header {
   position: relative;
   .confirm{
     position: absolute;
-    right: 5px;
+    right:18px;
     top: 0;
   }
 }
@@ -95,7 +96,7 @@ export default {
   height: 30px;
   width: 50px;
   border-radius:7px;
-  box-shadow:1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+
 }
 
 </style>

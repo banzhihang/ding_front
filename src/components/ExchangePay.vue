@@ -15,18 +15,19 @@
                 label="兑换码"
                 placeholder=""
                 border
+                :border="false"
                 label-width="5em"
                 :rules="[{ required: true, message: '请输入正确兑换码'}]"
             />
 
-            <van-field v-model="showPrice" label="价格" readonly label-width="5em"/>
+            <van-field v-model="showPrice" label="价格" readonly label-width="5em" :border="false"/>
             <van-field
                 v-model="email"
                 name=""
                 label="接收邮箱"
                 placeholder="激活码通过邮件告知"
                 clearable
-                border
+                :border="false"
                 label-width="5em"
                 :rules="[{required: true, message: '请输入正确邮箱',pattern: emailRex}]"
             />
@@ -38,7 +39,7 @@
                 placeholder="请输入邮箱验证码"
                 clearable
                 label-width="5em"
-                border
+                :border="false"
                 :rules="[{required: true, message: '请输入正确验证码',pattern:validCodeRex}]"
             >
               <template #button >
@@ -120,7 +121,7 @@ export default {
     // 验证码倒计时
     countDown() {
       this.timer = setInterval(() => {
-        this.sendBtnText = `${this.counter} 秒后获取`
+        this.sendBtnText = `${this.counter}秒获取`
         this.counter--
         if (this.counter < 0) {
           this.reset()
@@ -155,7 +156,9 @@ export default {
     },
 
     checkWeiXinBrowser() {
-      return /MicroMessenger/i.test(window.navigator.userAgent);
+      var isIosQQ = ( /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) && /\sQQ/i.test(navigator.userAgent));
+      var isAndroidQQ = ( /(Android)/i.test(navigator.userAgent) && /MQQBrowser/i.test(navigator.userAgent) && /\sQQ/i.test((navigator.userAgent).split('MQQBrowser')));
+      return /MicroMessenger/i.test(window.navigator.userAgent) || isAndroidQQ || isIosQQ
     },
     // 判断是不是移动端
     isMobile() {
@@ -174,7 +177,7 @@ export default {
     },
     copyLink(){
       let oInput = document.createElement('input')
-      oInput.value = frontBaseUrl + "exchange_pay"
+      oInput.value = frontBaseUrl + "exchange"
       document.body.appendChild(oInput)
       oInput.select()
       document.execCommand("Copy")
@@ -272,12 +275,13 @@ export default {
     width: 35%;
     .van-button {
       width: 100%;
+      border-radius: 8px;
     }
   }
 }
 
 .email-btn {
-  width: 90px;
+  width: 80px;
   height: 30px;
   position: relative;
   .email-btn-in{
@@ -286,6 +290,9 @@ export default {
     right: 0;
     width: 100%;
     height: 100%;
+    .van-button {
+      border-radius: 5px;
+    }
   }
 }
 
@@ -296,6 +303,7 @@ export default {
   text-align: center;
   .van-button {
     width: 100%;
+    border-radius: 10px;
   }
 }
 </style>
