@@ -221,7 +221,9 @@ export default {
       // 密码
       password: '',
       // 晨检选项
-      signMorningColumns:['07:45-08:30 (随机时间不固定)','不晨检','08:45-09:30 (随机时间不固定)','09:45-10:30 (随机时间不固定)'],
+      signMorningColumns:['07:45-08:30 (随机时间不固定)','不健康打卡',
+        '08:45-09:30 (随机时间不固定)','09:45-10:30 (随机时间不固定)','11.15-11.55 (随机时间不固定)',
+        '13.15-13.55 (随机时间不固定)','15.15-15.55 (随机时间不固定)','17.00-17.25 (随机时间不固定)','17.35-17.50 (随机时间不固定)'],
       // 晚检选项
       signNightColumns:['19:15-20:00 (随机时间不固定)'],
       // 是否显示晨检选项
@@ -453,7 +455,7 @@ export default {
       this.showAttenSelect = false
     },
     morningOnConfirm(value) {
-      switch (value) {
+      switch (this.morningText) {
         case '07:45-08:30 (随机时间不固定)':
           this.morning_time = 7
           break
@@ -465,6 +467,24 @@ export default {
           break
         case '不晨检':
           this.morning_time = -1
+          break
+        case "不修改":
+          this.morning_time = -2
+          break
+        case '11.15-11.55 (随机时间不固定)':
+          this.morning_time = 11
+          break
+        case '13.15-13.55 (随机时间不固定)':
+          this.morning_time = 13
+          break
+        case '15.15-15.55 (随机时间不固定)':
+          this.morning_time = 15
+          break
+        case '17.00-17.25 (随机时间不固定)':
+          this.morning_time = 17
+          break
+        case '17.35-17.50 (随机时间不固定)':
+          this.morning_time = 1730
           break
       }
       this.morningText = value

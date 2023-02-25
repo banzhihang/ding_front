@@ -81,7 +81,7 @@
         <template #input>
           <van-radio-group v-model="status" direction="horizontal">
             <van-radio name="1">正常打卡</van-radio>
-            <van-radio name="0">暂停打卡</van-radio>
+            <van-radio name="0" @click="popMsg('暂停打卡将同时停止健康打卡和查寝')">暂停打卡</van-radio>
           </van-radio-group>
         </template>
       </van-field>
@@ -207,6 +207,124 @@
         />
       </van-popup>
 
+      <van-field name="额外信息" label="额外信息" label-width="5em" :border="false">
+        <template #input>
+          <van-radio-group v-model="isShowExtraData" direction="horizontal">
+            <van-radio :name="false">不修改</van-radio>
+            <van-radio :name="true">修改</van-radio>
+          </van-radio-group>
+        </template>
+      </van-field>
+
+      <van-field name="radio" label="当日健康码是否正常" label-width="5em" :border="false" v-show="isShowExtraData">
+        <template #input>
+          <van-radio-group v-model="healthCode" direction="horizontal">
+            <van-radio name="不修改">不修改</van-radio>
+            <van-radio name="是">是</van-radio>
+            <van-radio name="否">否</van-radio>
+          </van-radio-group>
+        </template>
+      </van-field>
+
+      <van-field name="radio" label="当日行程码是否正常" label-width="5em" :border="false" v-show="isShowExtraData">
+        <template #input>
+          <van-radio-group v-model="tripCode" direction="horizontal">
+            <van-radio name="不修改">不修改</van-radio>
+            <van-radio name="是">是</van-radio>
+            <van-radio name="否">否</van-radio>
+          </van-radio-group>
+        </template>
+      </van-field>
+
+      <van-field name="radio" label="当日是否在校门内" label-width="5em" :border="false" v-show="isShowExtraData">
+        <template #input>
+          <van-radio-group v-model="inSchool" direction="horizontal">
+            <van-radio name="不修改">不修改</van-radio>
+            <van-radio name="是">是</van-radio>
+            <van-radio name="否">否</van-radio>
+          </van-radio-group>
+        </template>
+      </van-field>
+
+      <van-field name="radio" label="当日是否已完成核酸检测" label-width="5em" :border="false" v-show="isShowExtraData">
+        <template #input>
+          <van-radio-group v-model="completeNucleic" direction="horizontal">
+            <van-radio name="不修改">不修改</van-radio>
+            <van-radio name="是">是</van-radio>
+            <van-radio name="否">否</van-radio>
+          </van-radio-group>
+        </template>
+      </van-field>
+
+      <van-field
+          readonly
+          clickable
+          label="园区"
+          :border="false"
+          v-model="park"
+          @click="showParkSelect = true"
+          is-link
+          label-width="5em"
+          :rules="[{required: isShowExtraData, message: '请输入正确园区'}]"
+          v-show="isShowExtraData"
+      />
+      <van-popup v-model="showParkSelect" round position="bottom" :close-on-click-overlay="false">
+        <van-picker
+            show-toolbar
+            :columns="parkColumns"
+            @cancel="showParkSelect = false;showDormitory=false;showOutSchoolSite=false;showInSchoolSite=false;park='不修改'"
+            @confirm="parkOnConfirm"
+        />
+      </van-popup>
+
+      <van-field
+          v-model="building"
+          name="楼栋"
+          label="楼栋"
+          clearable
+          placeholder="例:1舍,2舍,A栋,B栋"
+          :border="false"
+          label-width="5em"
+          :rules="[{required: showDormitory===true && isShowExtraData===true, message: '请输入正确楼栋'}]"
+          v-show="showDormitory===true && isShowExtraData===true"
+      />
+
+      <van-field
+          v-model="dormitory"
+          name="寝室号"
+          label="寝室号"
+          clearable
+          :border="false"
+          label-width="5em"
+          placeholder=""
+          :rules="[{required: showDormitory===true && isShowExtraData===true, message: '请输入正确寝室号'}]"
+          v-show="showDormitory===true && isShowExtraData===true "
+      />
+
+      <van-field
+          v-model="inSchoolSite"
+          name="校内其他地点"
+          label="校内其他地点"
+          clearable
+          :border="false"
+          label-width="5em"
+          placeholder=""
+          :rules="[{required: showInSchoolSite===true && isShowExtraData===true, message: '请输入正确校内其他地点'}]"
+          v-show="showInSchoolSite===true && isShowExtraData===true"
+      />
+
+      <van-field
+          v-model="outSchoolSite"
+          name="校外住宿点"
+          label="校外住宿点"
+          clearable
+          :border="false"
+          label-width="5em"
+          placeholder=""
+          :rules="[{required: showOutSchoolSite===true && isShowExtraData===true, message: '请输入正确校外住宿点'}]"
+          v-show="showOutSchoolSite===true && isShowExtraData===true"
+      />
+
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit" loading-text="提交中..." :loading="isSubmit" :disabled="isSubmit"
         >提交</van-button>
@@ -275,7 +393,9 @@ export default {
       showBeiPei: false,
       // 校区选择
       schoolColumns: ['李园', '桃园', '梅园', '杏园', '橘园', '楠园', '竹园', '柑桔研究所'],
-      signMorningColumns:['不修改','不晨检','07:45-08:30 (随机时间不固定)','08:45-09:30 (随机时间不固定)','09:45-10:30 (随机时间不固定)'],
+      signMorningColumns:['不修改','不健康打卡','07:45-08:30 (随机时间不固定)',
+        '08:45-09:30 (随机时间不固定)','09:45-10:30 (随机时间不固定)','11.15-11.55 (随机时间不固定)',
+        '13.15-13.55 (随机时间不固定)','15.15-15.55 (随机时间不固定)','17.00-17.25 (随机时间不固定)','17.35-17.50 (随机时间不固定)'],
       // 晨检选项区显示内容
       morningText:'不修改',
       showSignMorningSelect:false,
@@ -313,6 +433,23 @@ export default {
       timer: null,
       // 倒数60秒
       counter: 60,
+      // 当日健康码是否正常
+      healthCode:"不修改",
+      tripCode:"不修改",
+      inSchool:"不修改",
+      completeNucleic:"不修改",
+      park:'不修改',
+      building:"",
+      dormitory:"",
+      isShowExtraData:false,
+      outSchoolSite:"",
+      inSchoolSite:"",
+      showInSchoolSite:false,
+      showOutSchoolSite:false,
+      showDormitory:false,
+      showParkSelect:false,
+      parkColumns:["荣昌校区","桃园","李园","杏园","橘园","梅园","楠园",
+        "竹园","北区留学公寓","文化村学生公寓","黄树村","柑研所","紫云楼","校内其他地点","校外住宿"]
     };
   },
   methods: {
@@ -322,6 +459,43 @@ export default {
       if (addressCheck === false) {
         return
       }
+
+      let extra_data = {}
+      if (this.isShowExtraData === true) {
+        if (this.healthCode !== "不修改") {
+          extra_data["drjkmsfzc"] = this.healthCode
+        }
+        if (this.tripCode !== "不修改") {
+          extra_data["drxcmsfzc"] = this.tripCode
+        }
+        if (this.inSchool !== "不修改") {
+          extra_data["drsfzxn"] = this.inSchool
+        }
+        if (this.completeNucleic !== "不修改") {
+          extra_data["drsfywchsjc"] = this.completeNucleic
+        }
+
+        if (this.park !== "不修改") {
+          extra_data["yqxx"] = this.park
+          if (this.park === "校内其他地点") {
+            extra_data["xnqtdd"] = this.inSchoolSite
+            extra_data["ldxx"] = ""
+            extra_data["qsh"] = ""
+            extra_data["xwzsdd"] = ""
+          }else if (this.park === "校外住宿") {
+            extra_data["xwzsdd"] = this.outSchoolSite
+            extra_data["xnqtdd"] = ""
+            extra_data["ldxx"] = ""
+            extra_data["qsh"] = ""
+          }else {
+            extra_data["ldxx"] = this.building
+            extra_data["qsh"] = this.dormitory
+            extra_data["xnqtdd"] = ""
+            extra_data["xwzsdd"] = ""
+          }
+        }
+      }
+
 
       let reg = new RegExp('/','g')
       let data = {
@@ -335,10 +509,10 @@ export default {
         address: this.address? this.address.replace(reg,''):'',
         attendance_time: this.attendance_time,
         user_address_detail:this.user_address_detail,
-        valid_code:this.valid_code
+        valid_code:this.valid_code,
+        extra_data:extra_data
       }
 
-      console.log(data)
       this.isSubmit = true
       let res;
       try{
@@ -403,6 +577,24 @@ export default {
       }
       console.log(this.attendance_time)
       this.showAttenSelect = false
+    },
+
+    parkOnConfirm(value){
+      if(value === "校内其他地点") {
+          this.showInSchoolSite = true
+          this.showOutSchoolSite = false
+          this.showDormitory = false
+      }else if (value === "校外住宿") {
+          this.showInSchoolSite = false
+          this.showOutSchoolSite = true
+          this.showDormitory = false
+      }else{
+          this.showInSchoolSite = false
+          this.showOutSchoolSite = false
+          this.showDormitory = true
+      }
+      this.park = value
+      this.showParkSelect = false
     },
 
     // 选择在校地点时，选择北碚，弹出选项框，最后点击确认时的操作
@@ -533,6 +725,7 @@ export default {
     },
     morningOnConfirm(value) {
       this.morningText = value
+      console.log(this.morningText,"text")
       switch (this.morningText) {
         case '07:45-08:30 (随机时间不固定)':
           this.morning_time = 7
@@ -549,8 +742,23 @@ export default {
         case "不修改":
           this.morning_time = -2
           break
+        case '11.15-11.55 (随机时间不固定)':
+          this.morning_time = 11
+          break
+        case '13.15-13.55 (随机时间不固定)':
+          this.morning_time = 13
+          break
+        case '15.15-15.55 (随机时间不固定)':
+          this.morning_time = 15
+          break
+        case '17.00-17.25 (随机时间不固定)':
+          this.morning_time = 17
+          break
+        case '17.35-17.50 (随机时间不固定)':
+          this.morning_time = 1730
+          break
       }
-
+      console.log("this.morning_time",this.morning_time)
       this.showSignMorningSelect = false
     },
     closed(){
@@ -635,6 +843,13 @@ export default {
       if (password !== null && password !== "") {
         this.password = password
       }
+    },
+    popMsg(msg) {
+      Dialog.alert({
+        message: msg,
+        confirmButtonColor:'#4187F2',
+        theme: 'round-button',
+      })
     }
 
   },

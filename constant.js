@@ -4,4 +4,4 @@ export const frontBaseUrl = "http://cdn.hotschool.ltd/index.html#/"
 
 // 后端服务器url
 export const baseUrl = 'http://175.24.229.115:10000/ding'
-//export const baseUrl = 'http://175.24.229.115:9000/ding'
+//export const baseUrl = 'http://192.168.1.9:9000/ding'

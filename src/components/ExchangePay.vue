@@ -1,12 +1,12 @@
 <template>
     <div>
-      <div class="empty" v-show="isWeiXin">
+      <div class="empty" v-show="!isWeiXin">
         <van-empty image="error" :description="emptyDesc" />
-        <div class="copy" v-show="isWeiXin && emptyDesc.includes('浏览器')">
+        <div class="copy" v-show="!isWeiXin">
           <van-button type="info" icon="passed" @click="copyLink">复制链接</van-button>
         </div>
       </div>
-      <div v-show="!isWeiXin">
+      <div v-show="isWeiXin">
         <div class="content">
           <van-form @submit="submit" class="data-form" validate-trigger="onBlur" validate-first :show-error="false" ref="forma">
             <van-field
@@ -93,8 +93,8 @@ export default {
       timer: null,
       // 倒数60秒
       counter: 60,
-      isWeiXin:false,
-      emptyDesc:"请用浏览器打开此页面。点击复制链接到浏览器打开。",
+      isWeiXin:true,
+      emptyDesc:"请在微信打开此页面。复制链接粘贴到微信任意聊天框，再点击打开。",
       isSubmit:false,
     }
   },
@@ -138,8 +138,9 @@ export default {
     },
     // 发送验证码
     async sendCode() {
-      if (this.checkWeiXinBrowser()) {
-        return this.$notify({type:'warning',message:"请用浏览器打开此页面"})
+      if (!this.checkWeiXinBrowser()) {
+        this.isWeiXin = false
+        return
       }
 
       const postData = {
@@ -156,9 +157,9 @@ export default {
     },
 
     checkWeiXinBrowser() {
-      var isIosQQ = ( /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) && /\sQQ/i.test(navigator.userAgent));
-      var isAndroidQQ = ( /(Android)/i.test(navigator.userAgent) && /MQQBrowser/i.test(navigator.userAgent) && /\sQQ/i.test((navigator.userAgent).split('MQQBrowser')));
-      return /MicroMessenger/i.test(window.navigator.userAgent) || isAndroidQQ || isIosQQ
+      //var isIosQQ = ( /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) && /\sQQ/i.test(navigator.userAgent));
+      //var isAndroidQQ = ( /(Android)/i.test(navigator.userAgent) && /MQQBrowser/i.test(navigator.userAgent) && /\sQQ/i.test((navigator.userAgent).split('MQQBrowser')));
+      return /MicroMessenger/i.test(window.navigator.userAgent)
     },
     // 判断是不是移动端
     isMobile() {
@@ -185,8 +186,9 @@ export default {
       Toast.success("复制成功")
     },
     async submit() {
-      if (this.checkWeiXinBrowser()) {
-        return this.$notify({type:'warning',message:"请用浏览器打开此页面"})
+      if (!this.checkWeiXinBrowser()) {
+        this.isWeiXin = false
+        return
       }
 
       const payData = {
@@ -229,15 +231,15 @@ export default {
     },
   },
   created() {
-    if (this.checkWeiXinBrowser()) {
-      this.isWeiXin = true
-      return
-    }
-    if(!this.isMobile()) {
-      this.isWeiXin = true
-      this.emptyDesc = "请用手机浏览器打开此页面"
-      return
-    }
+    // if (this.checkWeiXinBrowser()) {
+    //   this.isWeiXin = true
+    //   return
+    // }
+    // if(!this.isMobile()) {
+    //   this.isWeiXin = true
+    //   this.emptyDesc = "请用手机浏览器打开此页面"
+    //   return
+    // }
     this.getExCodePrice()
     this.showPrice = "￥" + this.price
   },
