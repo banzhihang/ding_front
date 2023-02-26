@@ -514,7 +514,7 @@ export default {
         case '09:45-10:30 (随机时间不固定)':
           this.morning_time = 9
           break
-        case '不晨检':
+        case '不健康打卡':
           this.morning_time = -1
           break
         case "不修改":
