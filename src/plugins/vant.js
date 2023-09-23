@@ -21,6 +21,7 @@ import { Swipe, SwipeItem } from 'vant';
 import { Overlay } from 'vant';
 import { Toast } from 'vant';
 import { Empty } from 'vant';
+import {Dialog} from "vant";
 
 Vue.use(Overlay);
 
@@ -49,4 +50,5 @@ Vue.use(Row);
 Vue.use(Col);
 Vue.use(Toast);
 Vue.use(Empty);
+Vue.use(Dialog)
 

@@ -86,13 +86,15 @@
           <span>实付:</span><span class="price">￥{{real_price}}</span>
         </div>
         <div class="pay-button">
-          <van-button  type="info" width="100%" loading-text="支付中..." :loading="isSubmit" @click="clickGoPay" :disabled="isSubmit">去支付</van-button>
+          <van-button  type="info" width="100%" loading-text="支付中..." :loading="isSubmit" @click="showDialog=true" :disabled="isSubmit">去支付</van-button>
         </div>
+        <van-dialog v-model="showDialog" message="支付完成后将通过邮件发送激活流程，请按照邮件指示完成激活，若没有收到邮件，请检查垃圾邮箱"
+                    @confirm="dialogConfirm" confirm-button-color="#4187F2">
+        </van-dialog>
       </div>
       <div class="no-code" @click="clickInvite">
         <p>👉👉 没有邀请码？点击向朋友获取 👈👈</p>
       </div>
-
     </div>
 
   </div>
@@ -107,6 +109,7 @@ export default {
   name: "UserBuyCode",
   data() {
     return {
+      showDialog:false,
       activeVar:null,
       isSubmit:false,
       timeToPrice:{},
@@ -272,6 +275,11 @@ export default {
           return true
         }
       }
+    },
+
+    dialogConfirm() {
+      this.showDialog = false
+      this.clickGoPay()
     },
 
     // 点击去支付
