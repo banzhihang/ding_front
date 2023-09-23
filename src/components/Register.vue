@@ -504,6 +504,7 @@ export default {
       this.showAttenSelect = false
     },
     morningOnConfirm(value) {
+      this.morningText = value
       switch (this.morningText) {
         case '07:45-08:30 (随机时间不固定)':
           this.morning_time = 7
@@ -536,7 +537,6 @@ export default {
           this.morning_time = 1730
           break
       }
-      this.morningText = value
       this.showSignMorningSelect = false
     },
 

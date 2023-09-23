@@ -575,7 +575,6 @@ export default {
         case "不修改":
           this.attendance_time = -2
       }
-      console.log(this.attendance_time)
       this.showAttenSelect = false
     },
 
@@ -725,7 +724,6 @@ export default {
     },
     morningOnConfirm(value) {
       this.morningText = value
-      console.log(this.morningText,"text")
       switch (this.morningText) {
         case '07:45-08:30 (随机时间不固定)':
           this.morning_time = 7
@@ -758,7 +756,6 @@ export default {
           this.morning_time = 1730
           break
       }
-      console.log("this.morning_time",this.morning_time)
       this.showSignMorningSelect = false
     },
     closed(){

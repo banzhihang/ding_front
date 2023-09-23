@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="empty" v-show="!isWeiXin">
+    <div class="empty" v-show="!isCanPay">
       <van-empty image="error" :description="emptyDesc" />
-      <div class="copy" v-show="!isWeiXin">
+      <div class="copy" v-show="!isCanPay">
         <van-button type="info" icon="passed" @click="copyLink">复制链接</van-button>
       </div>
     </div>
-    <div v-show="isWeiXin">
+    <div v-show="isCanPay">
       <div class="head">
         <van-row type="flex">
           <van-col span="9">购买激活码</van-col>
@@ -134,8 +134,9 @@ export default {
       timer: null,
       // 倒数60秒
       counter: 60,
-      isWeiXin:true,
-      emptyDesc:"请在微信打开此页面。复制链接粘贴到微信任意聊天框，再点击打开。"
+      isCanPay:true,
+      emptyDesc:"请在微信打开此页面。复制链接粘贴到微信任意聊天框，再点击打开。",
+      h5Can:"不能"
     };
   },
   methods: {
@@ -199,16 +200,10 @@ export default {
 
     // 支付
     async submit() {
-      if (!this.checkWeiXinBrowser()) {
-        this.isWeiXin = false
+      const canContinue = this.isContinue()
+      if (!canContinue) {
         return
       }
-
-      // if(!this.isMobile()) {
-      //   this.isWeiXin = false
-      //   this.emptyDesc = "请用手机浏览器打开此页面"
-      //   return
-      // }
 
       const codeData = this.timeToPrice[this.timeText]
       if (codeData === undefined) {
@@ -255,18 +250,36 @@ export default {
       }
     },
 
+    // 检查支付环境，决定是否继续往下执行.返回true继续执行，返回false中止执行
+    isContinue(){
+      // 如果h5唤起微信支付不允许,且当前环境不是微信内部浏览器，则提示到微信打开，并中止执行。如果是微信浏览器，则允许执行
+      if (this.h5Can === "不能") {
+        if (!this.checkWeiXinBrowser()) {
+          this.emptyDesc = "请在手机微信打开此页面。复制链接粘贴到微信任意聊天框，再点击打开。"
+          this.isCanPay = false
+          return false
+        } else {
+          this.isCanPay = true
+          return true
+        }
+      } else {
+        if(!this.isMobile() || this.checkWeiXinBrowser()) {
+          this.isCanPay = false
+          this.emptyDesc = "请用手机浏览器打开此页面。复制链接，粘贴到浏览器搜索框。"
+          return false
+        } else {
+          this.isCanPay = true
+          return true
+        }
+      }
+    },
+
     // 点击去支付
     clickGoPay() {
-      if (!this.checkWeiXinBrowser()) {
-        this.isWeiXin = false
+      const canContinue = this.isContinue()
+      if (!canContinue) {
         return
       }
-
-      // if(!this.isMobile()) {
-      //   this.isWeiXin = false
-      //   this.emptyDesc = "请用手机微信打开此页面"
-      //   return
-      // }
 
       // 防止还没有获取过验证码就直接去支付
       if (this.isValidEmail === false) {
@@ -295,17 +308,10 @@ export default {
     },
     // 发送验证码
     async sendCode() {
-      if (!this.checkWeiXinBrowser()) {
-        this.isWeiXin = false
+      const canContinue = this.isContinue()
+      if (!canContinue) {
         return
       }
-
-      // if(!this.isMobile()) {
-      //   this.isWeiXin = true
-      //   this.emptyDesc = "请用手机浏览器打开此页面"
-      //   return
-      // }
-
 
       const postData = {
         "email":this.email
@@ -324,6 +330,7 @@ export default {
       this.timeOnConfirm(item["desc"])
     },
 
+    // 检查是不是微信浏览器,是的话返回true,不是返回false
     checkWeiXinBrowser() {
       return /MicroMessenger/i.test(window.navigator.userAgent)
     },
@@ -350,6 +357,15 @@ export default {
       if (email !== null && email !== "") {
         this.email = email
       }
+    },
+
+    // 从服务器获取h5支付能否使用的信息
+    async getH5Can() {
+      const params = {
+        'config_name':['h5_can']
+      }
+      const {data:res} = await this.$http.post('/config',params)
+      this.h5Can = res.data.h5_can
     }
   },
   async created() {
@@ -370,6 +386,7 @@ export default {
     this.$forceUpdate()
     this.getEmail()
     this.timeOnConfirm(c)
+    await this.getH5Can()
   }
 }
 </script>
